@@ -1,0 +1,59 @@
+<button id="noBtn">No 😢</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script>
+  const noBtn = document.getElementById('noBtn');
+  noBtn.addEventListener('click', (e) => {
+    // Prevent default if needed
+    e.preventDefault();
+
+    // Create particles container if not there
+    let particlesContainer = document.createElement('div');
+    particlesContainer.style.position = 'fixed';
+    particlesContainer.style.top = '0';
+    particlesContainer.style.left = '0';
+    particlesContainer.style.width = '100%';
+    particlesContainer.style.height = '100%';
+    particlesContainer.style.pointerEvents = 'none';
+    document.body.appendChild(particlesContainer);
+
+    // Generate ~50 tiny pieces
+    for (let i = 0; i < 50; i++) {
+      let particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = Math.random() * 10 + 5 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.background = '#e74c3c'; // red pieces or heart shapes
+      particle.style.borderRadius = '50%'; // or '0' for shards
+      particle.style.left = e.clientX + 'px';
+      particle.style.top = e.clientY + 'px';
+      particle.style.opacity = '1';
+      particlesContainer.appendChild(particle);
+
+      // Animate shatter away
+      anime({
+        targets: particle,
+        translateX: Math.random() * 400 - 200,
+        translateY: Math.random() * 400 - 200,
+        scale: 0,
+        opacity: 0,
+        rotate: Math.random() * 360,
+        duration: 800 + Math.random() * 600,
+        easing: 'easeOutExpo',
+        complete: () => particle.remove()
+      });
+    }
+
+    // Hide button after shatter
+    noBtn.style.opacity = '0';
+    noBtn.style.pointerEvents = 'none';
+
+    // Optional: After shatter, auto "force" to Yes book
+    setTimeout(() => {
+      // Show/hide sections: hide question, show book
+      document.getElementById('question').style.display = 'none';
+      document.getElementById('book-section').style.display = 'block';
+      // Or play a fun "Yay!" sound/message
+    }, 1500);
+  });
+</script>
