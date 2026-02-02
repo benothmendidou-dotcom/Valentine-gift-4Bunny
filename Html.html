@@ -1,24 +1,235 @@
-<div id="book">
-  <div class="my-page"> <!-- Page 1 front -->
-    <h2>How We Met 💕</h2>
-    <img src="your-first-photo.jpg" alt="Us meeting" style="width:100%;">
-    <p>Remember that day in [place]? You smiled and I was done for! 😍</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Password to My Heart 💖 - For [Her Name]</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #c0392b;
+      text-align: center;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      margin: 10px;
+      font-size: clamp(1.8em, 6vw, 2.5em);
+    }
+    #gameContainer {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 60vh;
+      max-height: 500px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      border: 4px solid #e74c3c;
+      background: #fff0f5;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+      touch-action: none; /* Prevents default touch behaviors */
+    }
+    #winMessage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 30px;
+      box-shadow: 0 0 30px pink;
+      font-size: clamp(1.5em, 5vw, 2.2em);
+      display: none;
+      z-index: 10;
+      max-width: 90%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Password to My Heart... 💕</h1>
+  <div id="gameContainer">
+    <canvas id="gameCanvas"></canvas>
   </div>
-  <div class="my-page"> <!-- Page 1 back / Page 2 front -->
-    <h2>Our First Date</h2>
-    <img src="date-photo.jpg" alt="First date">
-    <p>You wore that cute outfit... still my favorite memory!</p>
+  <div id="winMessage">
+    You hit 10 hearts! 🎯<br>
+    Just like you stole mine forever ❤️<br>
+    I love you so much, [Her Name]!<br>
+    Happy Valentine's Day from Mondher 😘
+    <!-- Optional: <img src="images/us-photo.jpg" style="width:80%; max-width:300px; border-radius:15px; margin-top:15px;"> -->
   </div>
-  <!-- Add more pages: funny moments, trips, inside jokes, future dreams -->
-  <div class="my-page">
-    <h2>I Love You Because...</h2>
-    <ul>
-      <li>You make me laugh every day 😂</li>
-      <li>Your hugs are the best</li>
-      <!-- Add 10+ reasons with small photos -->
-    </ul>
-  </div>
-  <div class="my-page end-page">
+
+  <script>
+    // === PASSWORD ===
+    const correctPassword = "iloveyou"; // CHANGE THIS!
+    const entered = prompt("What's the secret password to my heart? 💖\n(Hint: our special thing!)");
+    
+    if (entered !== correctPassword) {
+      alert("Wrong... try again! 🥺");
+      location.reload();
+    } else {
+      alert("Yay! You got in 💕 Now play as Cupid – drag to aim, tap to shoot!");
+      startGame();
+    }
+
+    // === GAME ===
+    function startGame() {
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      const winMsg = document.getElementById('winMessage');
+
+      // Responsive sizing
+      function resizeCanvas() {
+        const container = document.getElementById('gameContainer');
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas(); // Initial resize
+
+      let score = 0;
+      const goal = 10;
+      let arrows = [];
+      let hearts = [];
+
+      const cupid = { x: 80, y: canvas.height / 2, size: 60 };
+
+      // Unified pointer (mouse or touch)
+      let pointer = { x: canvas.width / 2, y: canvas.height / 2, down: false };
+
+      // Handle both mouse and touch
+      function updatePointer(e) {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches ? e.touches[0] : e;
+        pointer.x = touch.clientX - rect.left;
+        pointer.y = touch.clientY - rect.top;
+      }
+
+      function pointerDown(e) {
+        updatePointer(e);
+        pointer.down = true;
+        // Shoot immediately on tap/down
+        shoot();
+      }
+
+      function pointerUp(e) {
+        pointer.down = false;
+      }
+
+      function pointerMove(e) {
+        if (pointer.down) {
+          updatePointer(e);
+        }
+      }
+
+      // Events for desktop + mobile
+      canvas.addEventListener('mousedown', pointerDown);
+      canvas.addEventListener('mouseup', pointerUp);
+      canvas.addEventListener('mousemove', pointerMove);
+      canvas.addEventListener('touchstart', pointerDown);
+      canvas.addEventListener('touchend', pointerUp);
+      canvas.addEventListener('touchmove', pointerMove);
+
+      function shoot() {
+        const angle = Math.atan2(pointer.y - cupid.y, pointer.x - (cupid.x + cupid.size));
+        const speed = 12;
+        arrows.push({
+          x: cupid.x + cupid.size,
+          y: cupid.y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed
+        });
+      }
+
+      class Heart {
+        constructor() {
+          this.x = canvas.width + 50;
+          this.y = Math.random() * (canvas.height - 100) + 50;
+          this.size = 25 + Math.random() * 20;
+          this.speed = 2 + Math.random() * 3;
+        }
+        update() { this.x -= this.speed; }
+        draw() {
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size/2, this.x + this.size, this.y + this.size/3, this.x, this.y + this.size);
+          ctx.bezierCurveTo(this.x - this.size, this.y + this.size/3, this.x - this.size/2, this.y - this.size/2, this.x, this.y);
+          ctx.fillStyle = '#ff3366';
+          ctx.fill();
+        }
+      }
+
+      setInterval(() => hearts.push(new Heart()), 1200);
+
+      function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Cupid
+        ctx.fillStyle = 'pink';
+        ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
+        ctx.fillStyle = '#ff69b4';
+        ctx.beginPath();
+        ctx.arc(cupid.x + cupid.size/2, cupid.y - cupid.size/3, cupid.size/4, 0, Math.PI*2);
+        ctx.fill();
+
+        // Bow to pointer
+        ctx.beginPath();
+        ctx.moveTo(cupid.x + cupid.size, cupid.y);
+        ctx.lineTo(pointer.x, pointer.y);
+        ctx.strokeStyle = 'brown';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+        // Arrows
+        arrows = arrows.filter(a => {
+          a.x += a.vx;
+          a.y += a.vy;
+          ctx.fillStyle = 'red';
+          ctx.fillRect(a.x - 5, a.y - 2, 20, 4);
+          return a.x < canvas.width + 50 && a.y > -50 && a.y < canvas.height + 50;
+        });
+
+        // Hearts + hits
+        hearts = hearts.filter(h => {
+          h.update();
+          h.draw();
+          let hit = false;
+          arrows.forEach((a, ai) => {
+            const dx = a.x - h.x;
+            const dy = a.y - h.y;
+            if (Math.sqrt(dx*dx + dy*dy) < h.size / 1.5) {
+              score++;
+              hit = true;
+              arrows.splice(ai, 1);
+              if (score >= goal) winMsg.style.display = 'block';
+            }
+          });
+          return h.x > -50 && !hit;
+        });
+
+        // Score
+        ctx.fillStyle = 'black';
+        ctx.font = 'bold 30px cursive';
+        ctx.fillText(`Hearts Hit: ${score} / ${goal}`, 20, 50);
+
+        requestAnimationFrame(loop);
+      }
+
+      loop();
+    }
+  </script>
+</body>
+</html>
     <h1>Will you keep being my everything? ❤️</h1>
     <p>Forever yours, Mondher</p>
     <!-- Maybe a big heart animation or your photo together -->
