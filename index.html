@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Password to My Heart 💖 - For [Her Name]</title>
+  <title>Password to My Heart 💖</title>
   <style>
     body {
       margin: 0;
@@ -12,215 +12,262 @@
       font-family: 'Comic Sans MS', cursive, sans-serif;
       color: #c0392b;
       text-align: center;
-      overflow: hidden;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      overflow: hidden;
+      touch-action: none;
     }
     h1 {
       margin: 10px;
-      font-size: clamp(1.8em, 6vw, 2.5em);
-    }
-    #gameContainer {
-      position: relative;
-      width: 100%;
-      max-width: 800px;
-      height: 60vh;
-      max-height: 500px;
+      font-size: clamp(1.8em, 5vw, 2.5em);
     }
     canvas {
-      width: 100%;
-      height: 100%;
       border: 4px solid #e74c3c;
       background: #fff0f5;
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
-      touch-action: none; /* Prevents default touch behaviors */
+      box-shadow: 0 0 20px rgba(231,76,60,0.5);
+      display: block;
+      margin: 10px auto;
+      max-width: 95%;
+      max-height: 70vh;
+      touch-action: none;
     }
     #winMessage {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 30px;
-      box-shadow: 0 0 30px pink;
-      font-size: clamp(1.5em, 5vw, 2.2em);
-      display: none;
-      z-index: 10;
+      transform: translate(-50%, -50%) scale(0.7);
+      background: rgba(255,255,255,0.95);
+      padding: 40px 50px;
+      border-radius: 25px;
+      box-shadow: 0 0 40px rgba(255,105,180,0.7);
+      font-size: clamp(1.6em, 5vw, 2.5em);
+      color: #c0392b;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out, visibility 0s linear 0.7s;
+      z-index: 100;
       max-width: 90%;
+    }
+    #winMessage.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+      transition-delay: 0s;
+    }
+    #closeBtn {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 36px;
+      font-weight: bold;
+      color: #e74c3c;
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s, transform 0.2s;
+    }
+    #closeBtn:hover {
+      color: #c0392b;
+      transform: scale(1.2);
     }
   </style>
 </head>
 <body>
   <h1>Password to My Heart... 💕</h1>
-  <div id="gameContainer">
-    <canvas id="gameCanvas"></canvas>
-  </div>
+  <canvas id="gameCanvas"></canvas>
   <div id="winMessage">
+    <button id="closeBtn">×</button>
     You hit 10 hearts! 🎯<br>
-    Just like you stole mine forever ❤️<br>
+    You already own mine forever ❤️<br>
     I love you so much, [Her Name]!<br>
-    Happy Valentine's Day from Mondher 😘
-    <!-- Optional: <img src="images/us-photo.jpg" style="width:80%; max-width:300px; border-radius:15px; margin-top:15px;"> -->
+    Happy Valentine's from Mondher 😘
+    <!-- Optional photo: <img src="images/us-photo.jpg" style="width:180px; border-radius:15px; margin-top:20px;"> -->
   </div>
 
   <script>
-    // === PASSWORD ===
-    const correctPassword = "iloveyou"; // CHANGE THIS!
-    const entered = prompt("What's the secret password to my heart? 💖\n(Hint: our special thing!)");
-    
+    // === PASSWORD PROTECTION ===
+    const correctPassword = "iloveyou"; // ← CHANGE THIS to your special password
+    let entered = prompt("What's the secret password to my heart? 💖\n(Hint: think of us!)");
+
     if (entered !== correctPassword) {
-      alert("Wrong... try again! 🥺");
+      alert("Not quite... try again! 🥺");
       location.reload();
     } else {
-      alert("Yay! You got in 💕 Now play as Cupid – drag to aim, tap to shoot!");
+      alert("Yes! 💕 Now be Cupid & shoot 10 hearts with taps/drags!");
       startGame();
     }
 
-    // === GAME ===
     function startGame() {
       const canvas = document.getElementById('gameCanvas');
       const ctx = canvas.getContext('2d');
       const winMsg = document.getElementById('winMessage');
 
-      // Responsive sizing
-      function resizeCanvas() {
-        const container = document.getElementById('gameContainer');
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientHeight;
+      // Responsive canvas
+      function resize() {
+        canvas.width = Math.min(window.innerWidth * 0.95, 800);
+        canvas.height = Math.min(window.innerHeight * 0.6, 500);
       }
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas(); // Initial resize
+      resize();
+      window.addEventListener('resize', resize);
+      window.addEventListener('orientationchange', resize);
+
+      // === CUSTOMIZABLE IMAGES ===
+      // Change these file names to match what you uploaded in /images folder
+      const cupidSrc     = 'images/cupid.png';        // Cupid character PNG
+      const arrowSrc     = 'images/heart-arrow.png';  // Arrow (heart-tipped) PNG
+      const heartSrc     = 'images/target-heart.png'; // Floating target heart PNG
+
+      // Preload images
+      const cupidImg = new Image();
+      cupidImg.src = cupidSrc;
+
+      const arrowImg = new Image();
+      arrowImg.src = arrowSrc;
+
+      const heartImg = new Image();
+      heartImg.src = heartSrc;
 
       let score = 0;
       const goal = 10;
       let arrows = [];
       let hearts = [];
 
-      const cupid = { x: 80, y: canvas.height / 2, size: 60 };
+      const cupid = { x: 80, y: canvas.height / 2, size: 80 }; // size can be adjusted
 
-      // Unified pointer (mouse or touch)
-      let pointer = { x: canvas.width / 2, y: canvas.height / 2, down: false };
+      let aim = { x: canvas.width / 2, y: canvas.height / 2 };
 
-      // Handle both mouse and touch
-      function updatePointer(e) {
+      // Unified aim & shoot (mouse + touch)
+      function updateAim(e) {
         e.preventDefault();
         const rect = canvas.getBoundingClientRect();
-        const touch = e.touches ? e.touches[0] : e;
-        pointer.x = touch.clientX - rect.left;
-        pointer.y = touch.clientY - rect.top;
+        const clientX = e.clientX || (e.touches && e.touches[0]?.clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0]?.clientY);
+        aim.x = clientX - rect.left;
+        aim.y = clientY - rect.top;
       }
 
-      function pointerDown(e) {
-        updatePointer(e);
-        pointer.down = true;
-        // Shoot immediately on tap/down
-        shoot();
-      }
-
-      function pointerUp(e) {
-        pointer.down = false;
-      }
-
-      function pointerMove(e) {
-        if (pointer.down) {
-          updatePointer(e);
-        }
-      }
-
-      // Events for desktop + mobile
-      canvas.addEventListener('mousedown', pointerDown);
-      canvas.addEventListener('mouseup', pointerUp);
-      canvas.addEventListener('mousemove', pointerMove);
-      canvas.addEventListener('touchstart', pointerDown);
-      canvas.addEventListener('touchend', pointerUp);
-      canvas.addEventListener('touchmove', pointerMove);
-
-      function shoot() {
-        const angle = Math.atan2(pointer.y - cupid.y, pointer.x - (cupid.x + cupid.size));
+      function shoot(e) {
+        e.preventDefault();
+        updateAim(e);
+        const angle = Math.atan2(aim.y - cupid.y, aim.x - (cupid.x + cupid.size));
         const speed = 12;
         arrows.push({
           x: cupid.x + cupid.size,
           y: cupid.y,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed
+          vy: Math.sin(angle) * speed,
+          rotation: angle // for rotating arrow image if wanted
         });
       }
 
+      canvas.addEventListener('mousemove', updateAim);
+      canvas.addEventListener('mousedown', shoot);
+      canvas.addEventListener('touchmove', updateAim, { passive: false });
+      canvas.addEventListener('touchstart', shoot, { passive: false });
+
+      // Target Heart class (now using image)
       class Heart {
         constructor() {
           this.x = canvas.width + 50;
           this.y = Math.random() * (canvas.height - 100) + 50;
-          this.size = 25 + Math.random() * 20;
+          this.size = 50 + Math.random() * 30; // adjust base size
           this.speed = 2 + Math.random() * 3;
         }
         update() { this.x -= this.speed; }
         draw() {
-          ctx.beginPath();
-          ctx.moveTo(this.x, this.y);
-          ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size/2, this.x + this.size, this.y + this.size/3, this.x, this.y + this.size);
-          ctx.bezierCurveTo(this.x - this.size, this.y + this.size/3, this.x - this.size/2, this.y - this.size/2, this.x, this.y);
-          ctx.fillStyle = '#ff3366';
-          ctx.fill();
+          if (heartImg.complete) {
+            ctx.drawImage(heartImg, this.x - this.size/2, this.y - this.size/2, this.size, this.size);
+          } else {
+            // fallback drawn heart
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size/2, this.x + this.size, this.y + this.size/3, this.x, this.y + this.size);
+            ctx.bezierCurveTo(this.x - this.size, this.y + this.size/3, this.x - this.size/2, this.y - this.size/2, this.x, this.y);
+            ctx.fillStyle = '#ff3366';
+            ctx.fill();
+          }
         }
       }
 
       setInterval(() => hearts.push(new Heart()), 1200);
 
+      // Close button
+      document.getElementById('closeBtn').addEventListener('click', () => {
+        winMsg.classList.remove('show');
+      });
+
       function loop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Cupid
-        ctx.fillStyle = 'pink';
-        ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
-        ctx.fillStyle = '#ff69b4';
-        ctx.beginPath();
-        ctx.arc(cupid.x + cupid.size/2, cupid.y - cupid.size/3, cupid.size/4, 0, Math.PI*2);
-        ctx.fill();
+        // Draw Cupid (image preferred)
+        if (cupidImg.complete) {
+          ctx.drawImage(cupidImg, cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
+        } else {
+          // fallback
+          ctx.fillStyle = 'pink';
+          ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
+          ctx.fillStyle = '#ff69b4';
+          ctx.beginPath();
+          ctx.arc(cupid.x + cupid.size/2, cupid.y - cupid.size/3, cupid.size/4, 0, Math.PI*2);
+          ctx.fill();
+        }
 
-        // Bow to pointer
+        // Bow line
         ctx.beginPath();
         ctx.moveTo(cupid.x + cupid.size, cupid.y);
-        ctx.lineTo(pointer.x, pointer.y);
+        ctx.lineTo(aim.x, aim.y);
         ctx.strokeStyle = 'brown';
         ctx.lineWidth = 5;
         ctx.stroke();
 
-        // Arrows
+        // Arrows (image + rotation)
         arrows = arrows.filter(a => {
           a.x += a.vx;
           a.y += a.vy;
-          ctx.fillStyle = 'red';
-          ctx.fillRect(a.x - 5, a.y - 2, 20, 4);
-          return a.x < canvas.width + 50 && a.y > -50 && a.y < canvas.height + 50;
+
+          if (arrowImg.complete) {
+            ctx.save();
+            ctx.translate(a.x, a.y);
+            ctx.rotate(a.rotation);
+            ctx.drawImage(arrowImg, -20, -10, 40, 20); // adjust size/offset as needed
+            ctx.restore();
+          } else {
+            // fallback
+            ctx.fillStyle = 'red';
+            ctx.fillRect(a.x - 5, a.y - 2, 20, 4);
+          }
+
+          return a.x < canvas.width + 100 && a.y > -50 && a.y < canvas.height + 50;
         });
 
-        // Hearts + hits
+        // Hearts & collisions
         hearts = hearts.filter(h => {
           h.update();
           h.draw();
+
           let hit = false;
           arrows.forEach((a, ai) => {
             const dx = a.x - h.x;
             const dy = a.y - h.y;
-            if (Math.sqrt(dx*dx + dy*dy) < h.size / 1.5) {
+            if (Math.hypot(dx, dy) < h.size / 1.5) {
               score++;
               hit = true;
               arrows.splice(ai, 1);
-              if (score >= goal) winMsg.style.display = 'block';
+              if (score >= goal) {
+                winMsg.classList.add('show');
+              }
             }
           });
+
           return h.x > -50 && !hit;
         });
 
-        // Score
+        // Score display
         ctx.fillStyle = 'black';
         ctx.font = 'bold 30px cursive';
-        ctx.fillText(`Hearts Hit: ${score} / ${goal}`, 20, 50);
+        ctx.fillText(`Hearts: ${score} / ${goal}`, 20, 50);
 
         requestAnimationFrame(loop);
       }
