@@ -17,38 +17,40 @@
       touch-action: none;
     }
     h1 {
-      margin: 8px 12px;
-      font-size: clamp(1.9em, 6vw, 2.8em);
+      margin: clamp(6px, 3vw, 12px) clamp(10px, 4vw, 20px);
+      font-size: clamp(2em, 8vw, 3.2em);
+      line-height: 1.1;
+      text-shadow: 1px 1px 3px rgba(255,105,180,0.6);
     }
     canvas {
-      border: 4px solid #e74c3c;
+      border: clamp(3px, 1vw, 5px) solid #e74c3c;
       background: #fff0f5;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(231,76,60,0.5);
+      border-radius: clamp(12px, 4vw, 20px);
+      box-shadow: 0 0 clamp(20px, 6vw, 35px) rgba(231,76,60,0.4);
       display: block;
-      margin: 10px auto;
-      max-width: 96%;
-      max-height: 78vh;
+      margin: clamp(8px, 3vw, 15px) auto;
+      max-width: 98%;
+      max-height: 82vh; /* much more space on phones */
       touch-action: none;
     }
     #winMessage {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0.75);
-      background: rgba(255,255,255,0.96);
-      padding: clamp(25px, 6vw, 45px) clamp(30px, 7vw, 55px);
-      border-radius: 25px;
-      box-shadow: 0 0 45px rgba(255,105,180,0.8);
-      font-size: clamp(1.9em, 6.5vw, 2.8em);
-      line-height: 1.4;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(255,255,255,0.97);
+      padding: clamp(30px, 8vw, 50px) clamp(35px, 9vw, 60px);
+      border-radius: clamp(20px, 6vw, 32px);
+      box-shadow: 0 0 clamp(40px, 10vw, 60px) rgba(255,105,180,0.75);
+      font-size: clamp(2em, 7.5vw, 3em);
+      line-height: 1.45;
       color: #c0392b;
       text-align: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.7s ease-out, transform 0.7s ease-out, visibility 0s linear 0.7s;
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out, visibility 0s linear 0.8s;
       z-index: 100;
-      max-width: 92%;
+      max-width: 94%;
       box-sizing: border-box;
     }
     #winMessage.show {
@@ -59,20 +61,20 @@
     }
     #closeBtn {
       position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: clamp(32px, 8vw, 44px);
+      top: clamp(8px, 2.5vw, 14px);
+      right: clamp(12px, 3.5vw, 18px);
+      font-size: clamp(38px, 10vw, 52px);
       font-weight: bold;
       color: #e74c3c;
       background: none;
       border: none;
       cursor: pointer;
       line-height: 1;
-      transition: color 0.2s, transform 0.2s;
+      transition: color 0.25s, transform 0.25s;
     }
     #closeBtn:hover {
       color: #c0392b;
-      transform: scale(1.25);
+      transform: scale(1.3);
     }
   </style>
 </head>
@@ -85,7 +87,7 @@
     You already own mine forever ❤️<br>
     I love you so much, [Her Name]!<br>
     Happy Valentine's from Mondher 😘
-    <!-- Optional: <img src="images/us-photo.jpg" style="width: clamp(140px, 35vw, 220px); border-radius:15px; margin-top:20px;"> -->
+    <!-- Optional: <img src="images/us-photo.jpg" style="width: clamp(160px, 40vw, 240px); border-radius:15px; margin-top: clamp(15px, 4vw, 25px);"> -->
   </div>
 
   <script>
@@ -106,21 +108,21 @@
       const ctx = canvas.getContext('2d');
       const winMsg = document.getElementById('winMessage');
 
-      let hasWon = false; // ← NEW: flag to prevent re-showing after close
+      let hasWon = false; // prevents re-showing after close
 
-      // Responsive canvas
+      // Responsive canvas – more generous on mobile portrait
       function resize() {
-        canvas.width = Math.min(window.innerWidth * 0.96, 800);
-        canvas.height = Math.min(window.innerHeight * 0.78, 550);
+        canvas.width = Math.min(window.innerWidth * 0.98, 800);
+        canvas.height = Math.min(window.innerHeight * 0.82, 580);
       }
       resize();
       window.addEventListener('resize', resize);
       window.addEventListener('orientationchange', resize);
 
       // CUSTOMIZABLE IMAGES
-      const cupidSrc     = 'cupid.png';
-      const arrowSrc     = 'arrow.png';
-      const heartSrc     = 'Red pixel heart.png';
+      const cupidSrc     = 'images/cupid.png';
+      const arrowSrc     = 'images/heart-arrow.png';
+      const heartSrc     = 'images/target-heart.png';
 
       const cupidImg = new Image();
       cupidImg.src = cupidSrc;
@@ -140,9 +142,9 @@
       let hearts = [];
 
       const cupid = { 
-        x: 80, 
+        x: canvas.width * 0.12,  // slightly more left margin on mobile
         y: canvas.height / 2, 
-        size: Math.max(60, Math.min(canvas.width * 0.18, 90)) 
+        size: Math.max(70, Math.min(canvas.width * 0.22, 110)) 
       };
 
       let aim = { x: canvas.width / 2, y: canvas.height / 2 };
@@ -178,9 +180,9 @@
       class Heart {
         constructor() {
           this.x = canvas.width + 50;
-          this.y = Math.random() * (canvas.height - 120) + 60;
-          this.size = Math.max(50, Math.min(canvas.width * 0.12, 80));
-          this.speed = 2 + Math.random() * 3;
+          this.y = Math.random() * (canvas.height - 140) + 70;
+          this.size = Math.max(55, Math.min(canvas.width * 0.14, 90));
+          this.speed = 2.2 + Math.random() * 3.2;
         }
         update() { this.x -= this.speed; }
         draw() {
@@ -197,7 +199,7 @@
         }
       }
 
-      setInterval(() => hearts.push(new Heart()), 1100);
+      setInterval(() => hearts.push(new Heart()), 1000); // faster spawn for engagement
 
       document.getElementById('closeBtn').addEventListener('click', () => {
         winMsg.classList.remove('show');
@@ -223,7 +225,7 @@
         ctx.moveTo(cupid.x + cupid.size, cupid.y);
         ctx.lineTo(aim.x, aim.y);
         ctx.strokeStyle = 'brown';
-        ctx.lineWidth = 5;
+        ctx.lineWidth = clamp(4, canvas.width * 0.008, 7);
         ctx.stroke();
 
         // Arrows
@@ -235,14 +237,14 @@
             ctx.save();
             ctx.translate(a.x, a.y);
             ctx.rotate(a.rotation);
-            ctx.drawImage(arrowImg, -28, -14, 56, 28);
+            ctx.drawImage(arrowImg, -30, -15, 60, 30);
             ctx.restore();
           } else {
             ctx.fillStyle = 'red';
-            ctx.fillRect(a.x - 12, a.y - 6, 36, 12);
+            ctx.fillRect(a.x - 15, a.y - 7.5, 40, 15);
           }
 
-          return a.x < canvas.width + 100 && a.y > -50 && a.y < canvas.height + 50;
+          return a.x < canvas.width + 120 && a.y > -60 && a.y < canvas.height + 60;
         });
 
         // Hearts + collisions
@@ -254,12 +256,11 @@
           arrows.forEach((a, ai) => {
             const dx = a.x - h.x;
             const dy = a.y - h.y;
-            if (Math.hypot(dx, dy) < h.size / 1.5) {
+            if (Math.hypot(dx, dy) < h.size / 1.4) {  // slightly larger hitbox for mobile
               score++;
               hit = true;
               arrows.splice(ai, 1);
 
-              // Show win message ONLY once
               if (score >= goal && !hasWon) {
                 hasWon = true;
                 winMsg.classList.add('show');
@@ -267,13 +268,13 @@
             }
           });
 
-          return h.x > -50 && !hit;
+          return h.x > -60 && !hit;
         });
 
-        // Score
+        // Score – larger & nicer on mobile
         ctx.fillStyle = 'black';
-        ctx.font = `bold ${Math.max(28, Math.min(canvas.width * 0.07, 42))}px cursive`;
-        ctx.fillText(`Hearts: ${score} / ${goal}`, 20, 55);
+        ctx.font = `bold ${Math.max(32, Math.min(canvas.width * 0.08, 48))}px cursive`;
+        ctx.fillText(`Hearts: ${score} / ${goal}`, 25, 60);
 
         requestAnimationFrame(loop);
       }
