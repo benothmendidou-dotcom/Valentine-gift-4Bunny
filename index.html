@@ -83,12 +83,12 @@
     You already own mine forever ❤️<br>
     I love you so much, [Her Name]!<br>
     Happy Valentine's from Mondher 😘
-    <!-- Optional photo: <img src="images/us-photo.jpg" style="width:180px; border-radius:15px; margin-top:20px;"> -->
+    <!-- Optional: <img src="images/us-photo.jpg" style="width:180px; border-radius:15px; margin-top:20px;"> -->
   </div>
 
   <script>
     // === PASSWORD PROTECTION ===
-    const correctPassword = "iloveyou"; // ← CHANGE THIS to your special password
+    const correctPassword = "iloveyou"; // CHANGE THIS to your special one
     let entered = prompt("What's the secret password to my heart? 💖\n(Hint: think of us!)");
 
     if (entered !== correctPassword) {
@@ -113,32 +113,34 @@
       window.addEventListener('resize', resize);
       window.addEventListener('orientationchange', resize);
 
-      // === CUSTOMIZABLE IMAGES ===
-      // Change these file names to match what you uploaded in /images folder
-      const cupidSrc     = 'cupid.png';        // Cupid character PNG
-      const arrowSrc     = 'arrow.png';  // Arrow (heart-tipped) PNG
-      const heartSrc     = 'Rex pixel heart.png'; // Floating target heart PNG
+      // === CUSTOMIZABLE IMAGES (change filenames here) ===
+      const cupidSrc     = 'cupid.png';          // Cupid character (facing right)
+      const arrowSrc     = 'arrow.png';    // Heart-tipped arrow
+      const heartSrc     = 'Red pixel heart.png';   // Floating target heart
 
-      // Preload images
+      // Preload images with error logging
       const cupidImg = new Image();
       cupidImg.src = cupidSrc;
+      cupidImg.onerror = () => console.error("Failed to load Cupid image:", cupidSrc);
 
       const arrowImg = new Image();
       arrowImg.src = arrowSrc;
+      arrowImg.onerror = () => console.error("Failed to load Arrow image:", arrowSrc);
 
       const heartImg = new Image();
       heartImg.src = heartSrc;
+      heartImg.onerror = () => console.error("Failed to load Heart image:", heartSrc);
 
       let score = 0;
       const goal = 10;
       let arrows = [];
       let hearts = [];
 
-      const cupid = { x: 80, y: canvas.height / 2, size: 80 }; // size can be adjusted
+      const cupid = { x: 80, y: canvas.height / 2, size: 80 };
 
       let aim = { x: canvas.width / 2, y: canvas.height / 2 };
 
-      // Unified aim & shoot (mouse + touch)
+      // Aim & shoot (mouse + touch)
       function updateAim(e) {
         e.preventDefault();
         const rect = canvas.getBoundingClientRect();
@@ -158,7 +160,7 @@
           y: cupid.y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          rotation: angle // for rotating arrow image if wanted
+          rotation: angle
         });
       }
 
@@ -167,20 +169,20 @@
       canvas.addEventListener('touchmove', updateAim, { passive: false });
       canvas.addEventListener('touchstart', shoot, { passive: false });
 
-      // Target Heart class (now using image)
+      // Target Heart
       class Heart {
         constructor() {
           this.x = canvas.width + 50;
           this.y = Math.random() * (canvas.height - 100) + 50;
-          this.size = 50 + Math.random() * 30; // adjust base size
+          this.size = 60 + Math.random() * 30;
           this.speed = 2 + Math.random() * 3;
         }
         update() { this.x -= this.speed; }
         draw() {
-          if (heartImg.complete) {
+          if (heartImg.complete && heartImg.naturalHeight !== 0) {
             ctx.drawImage(heartImg, this.x - this.size/2, this.y - this.size/2, this.size, this.size);
           } else {
-            // fallback drawn heart
+            // fallback
             ctx.beginPath();
             ctx.moveTo(this.x, this.y);
             ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size/2, this.x + this.size, this.y + this.size/3, this.x, this.y + this.size);
@@ -193,7 +195,7 @@
 
       setInterval(() => hearts.push(new Heart()), 1200);
 
-      // Close button
+      // Close win message
       document.getElementById('closeBtn').addEventListener('click', () => {
         winMsg.classList.remove('show');
       });
@@ -201,11 +203,10 @@
       function loop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw Cupid (image preferred)
-        if (cupidImg.complete) {
+        // Cupid
+        if (cupidImg.complete && cupidImg.naturalHeight !== 0) {
           ctx.drawImage(cupidImg, cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
         } else {
-          // fallback
           ctx.fillStyle = 'pink';
           ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
           ctx.fillStyle = '#ff69b4';
@@ -214,7 +215,7 @@
           ctx.fill();
         }
 
-        // Bow line
+        // Bow
         ctx.beginPath();
         ctx.moveTo(cupid.x + cupid.size, cupid.y);
         ctx.lineTo(aim.x, aim.y);
@@ -222,27 +223,26 @@
         ctx.lineWidth = 5;
         ctx.stroke();
 
-        // Arrows (image + rotation)
+        // Arrows
         arrows = arrows.filter(a => {
           a.x += a.vx;
           a.y += a.vy;
 
-          if (arrowImg.complete) {
+          if (arrowImg.complete && arrowImg.naturalHeight !== 0) {
             ctx.save();
             ctx.translate(a.x, a.y);
             ctx.rotate(a.rotation);
-            ctx.drawImage(arrowImg, -20, -10, 40, 20); // adjust size/offset as needed
+            ctx.drawImage(arrowImg, -25, -12.5, 50, 25); // adjust size/offset if needed
             ctx.restore();
           } else {
-            // fallback
             ctx.fillStyle = 'red';
-            ctx.fillRect(a.x - 5, a.y - 2, 20, 4);
+            ctx.fillRect(a.x - 10, a.y - 5, 30, 10);
           }
 
           return a.x < canvas.width + 100 && a.y > -50 && a.y < canvas.height + 50;
         });
 
-        // Hearts & collisions
+        // Hearts + collisions
         hearts = hearts.filter(h => {
           h.update();
           h.draw();
@@ -264,7 +264,7 @@
           return h.x > -50 && !hit;
         });
 
-        // Score display
+        // Score
         ctx.fillStyle = 'black';
         ctx.font = 'bold 30px cursive';
         ctx.fillText(`Hearts: ${score} / ${goal}`, 20, 50);
