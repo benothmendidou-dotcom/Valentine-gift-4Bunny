@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>To My Valentine 💕</title>
+  <title>For My Sweetheart 💕</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -11,10 +11,11 @@
       color: #fff;
       height: 100vh;
       overflow: hidden;
-      background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+      background: linear-gradient(135deg, #ffebee 0%, #fce4ec 50%, #f8bbd0 100%);
       position: relative;
     }
 
+    /* Cute floating hearts */
     .hearts-bg {
       position: fixed;
       inset: 0;
@@ -23,181 +24,196 @@
     }
     .heart-float {
       position: absolute;
-      font-size: clamp(20px, 5vw, 40px);
-      color: rgba(255,182,193,0.75);
-      animation: float 12s linear infinite;
-      text-shadow: 0 0 12px #fff;
+      font-size: clamp(24px, 6vw, 48px);
+      color: rgba(255,105,180,0.65);
+      animation: floatHeart 14s linear infinite;
+      text-shadow: 0 0 15px rgba(255,255,255,0.9);
     }
-    @keyframes float {
-      0% { transform: translateY(110vh) rotate(0deg); opacity: 0.7; }
-      100% { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
+    @keyframes floatHeart {
+      0%   { transform: translateY(120vh) rotate(0deg) scale(0.8); opacity: 0.8; }
+      100% { transform: translateY(-40vh) rotate(1080deg) scale(1.2); opacity: 0; }
     }
 
+    /* Login page */
     #loginPage {
       position: fixed;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0,0,0,0.2);
-      backdrop-filter: blur(8px);
+      background: rgba(255,245,248,0.4);
+      backdrop-filter: blur(10px);
       z-index: 20;
-      transition: opacity 1.2s ease, transform 1.2s ease;
+      transition: opacity 1.3s ease, transform 1.3s ease;
     }
     #loginPage.hidden {
       opacity: 0;
-      transform: scale(1.08);
+      transform: scale(1.1);
       pointer-events: none;
     }
     .login-box {
-      background: rgba(255,255,255,0.94);
-      border-radius: 32px;
-      padding: clamp(40px, 10vw, 60px);
-      box-shadow: 0 25px 70px rgba(255,105,180,0.45);
+      background: rgba(255,255,255,0.96);
+      border-radius: 40px;
+      padding: clamp(45px, 12vw, 70px);
+      box-shadow: 0 30px 80px rgba(255,105,180,0.35);
       text-align: center;
       max-width: 92%;
-      color: #d81b60;
-      animation: softGlow 4s ease-in-out infinite alternate;
+      color: #c2185b;
+      animation: cutePulse 5s ease-in-out infinite;
     }
-    @keyframes softGlow {
-      from { box-shadow: 0 25px 70px rgba(255,105,180,0.35); }
-      to   { box-shadow: 0 35px 90px rgba(255,105,180,0.55); }
+    @keyframes cutePulse {
+      0%,100% { transform: scale(1); }
+      50%     { transform: scale(1.03); }
     }
-    .login-box h1 { font-size: clamp(2.5em, 9vw, 4em); margin-bottom: 25px; }
+    .login-box h1 {
+      font-size: clamp(2.8em, 10vw, 4.5em);
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 8px rgba(216,27,96,0.3);
+    }
     .login-box input {
       width: 100%;
-      max-width: 340px;
-      padding: 16px 24px;
-      margin: 20px 0;
-      border: 3px solid #ff80ab;
+      max-width: 360px;
+      padding: 18px 26px;
+      margin: 25px 0;
+      border: 4px solid #ff80ab;
       border-radius: 999px;
-      font-size: 1.4em;
+      font-size: 1.5em;
       text-align: center;
       outline: none;
+      transition: border 0.3s;
     }
     .login-box input:focus { border-color: #f50057; }
     .login-box button {
-      background: linear-gradient(45deg, #f50057, #ff4081);
+      background: linear-gradient(45deg, #ff4081, #f50057);
+      color: white;
+      border: none;
+      padding: 18px 60px;
+      font-size: 1.6em;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(245,0,87,0.4);
+      transition: all 0.35s;
+    }
+    .login-box button:hover {
+      transform: translateY(-6px) scale(1.08);
+      box-shadow: 0 15px 40px rgba(245,0,87,0.6);
+    }
+
+    /* Game + Letter container */
+    #mainContent {
+      opacity: 0;
+      transition: opacity 1.6s ease;
+      pointer-events: none;
+    }
+    #mainContent.visible { opacity: 1; pointer-events: auto; }
+
+    canvas {
+      border: clamp(4px, 1.5vw, 7px) solid #ec407a;
+      background: rgba(255,245,248,0.92);
+      border-radius: clamp(24px, 7vw, 40px);
+      box-shadow: 0 0 clamp(40px, 10vw, 70px) rgba(236,64,122,0.35);
+      display: block;
+      margin: clamp(15px, 5vw, 25px) auto;
+      max-width: 98%;
+      max-height: 80vh;
+      touch-action: none;
+    }
+
+    /* Win screen */
+    #winScreen {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,245,248,0.85);
+      backdrop-filter: blur(12px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+      text-align: center;
+      color: #c2185b;
+    }
+    #winScreen h2 {
+      font-size: clamp(3em, 12vw, 5em);
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 10px rgba(216,27,96,0.4);
+    }
+    #openLetterBtn {
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 20px 70px;
+      font-size: clamp(1.6em, 6vw, 2.2em);
+      border-radius: 999px;
+      cursor: pointer;
+      margin-top: 40px;
+      box-shadow: 0 12px 35px rgba(255,64,129,0.5);
+      transition: all 0.4s;
+    }
+    #openLetterBtn:hover {
+      transform: scale(1.12) translateY(-8px);
+      box-shadow: 0 18px 50px rgba(255,64,129,0.7);
+    }
+
+    /* Letter screen */
+    #letterScreen {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,245,248,0.9);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 25;
+      padding: clamp(20px, 6vw, 40px);
+    }
+    #letterContent {
+      background: #fff;
+      border-radius: 36px;
+      padding: clamp(40px, 10vw, 70px);
+      max-width: 94%;
+      max-height: 90vh;
+      overflow-y: auto;
+      text-align: center;
+      color: #c2185b;
+      box-shadow: 0 30px 90px rgba(194,24,91,0.45);
+    }
+    #letterContent h2 {
+      font-size: clamp(2.8em, 10vw, 4.2em);
+      margin-bottom: 30px;
+    }
+    #letterContent p {
+      font-size: clamp(1.4em, 5.5vw, 2em);
+      line-height: 1.7;
+      margin: 20px 0;
+    }
+    #closeLetter {
+      margin-top: 40px;
+      background: #ec407a;
       color: white;
       border: none;
       padding: 16px 50px;
       font-size: 1.5em;
       border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 8px 25px rgba(245,0,87,0.4);
       transition: all 0.3s;
     }
-    .login-box button:hover { transform: translateY(-4px) scale(1.06); box-shadow: 0 12px 35px rgba(245,0,87,0.55); }
+    #closeLetter:hover { transform: scale(1.1); }
 
-    #gamePage {
-      opacity: 0;
-      transition: opacity 1.5s ease;
-      pointer-events: none;
-    }
-    #gamePage.visible { opacity: 1; pointer-events: auto; }
-
-    canvas {
-      border: clamp(4px, 1.2vw, 6px) solid #ec407a;
-      background: rgba(255,245,248,0.9);
-      border-radius: clamp(20px, 6vw, 32px);
-      box-shadow: 0 0 clamp(35px, 9vw, 60px) rgba(236,64,122,0.4);
-      display: block;
-      margin: clamp(12px, 4vw, 22px) auto;
-      max-width: 98%;
-      max-height: 84vh;
-      touch-action: none;
-    }
-
-    #winMessage {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 15;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.9s ease;
-    }
-    #winMessage.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .win-content {
-      background: rgba(255,255,255,0.97);
-      border-radius: 32px;
-      padding: clamp(40px, 10vw, 65px);
-      max-width: 92%;
-      text-align: center;
-      color: #d81b60;
-      box-shadow: 0 25px 80px rgba(216,27,96,0.5);
-    }
-    .win-content h2 { font-size: clamp(2.4em, 9vw, 3.8em); margin-bottom: 20px; }
-    .win-content p { font-size: clamp(1.4em, 5vw, 2em); line-height: 1.5; margin: 15px 0; }
-    #openLetterBtn {
-      background: #f50057;
-      color: white;
-      border: none;
-      padding: 16px 48px;
-      font-size: 1.4em;
-      border-radius: 999px;
-      margin-top: 25px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    #openLetterBtn:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(245,0,87,0.5); }
-
-    #letterOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 25;
-    }
-    #letterContent {
-      background: #fff0f5;
-      border-radius: 28px;
-      padding: clamp(35px, 8vw, 55px);
-      max-width: 90%;
-      max-height: 85vh;
-      overflow-y: auto;
-      text-align: center;
-      color: #c2185b;
-      box-shadow: 0 20px 70px rgba(194,24,91,0.5);
-    }
-    #letterContent h2 { font-size: clamp(2.2em, 8vw, 3.5em); margin-bottom: 25px; }
-    #letterContent p { font-size: clamp(1.3em, 5vw, 1.9em); line-height: 1.6; white-space: pre-wrap; }
-    #closeLetter {
-      margin-top: 30px;
-      background: #ec407a;
-      color: white;
-      border: none;
-      padding: 14px 40px;
-      font-size: 1.3em;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-
+    /* Mute button */
     #musicToggle {
       position: fixed;
-      bottom: clamp(15px, 4vw, 25px);
-      right: clamp(15px, 4vw, 25px);
-      background: rgba(255,255,255,0.8);
-      border: 3px solid #ff80ab;
+      bottom: clamp(20px, 5vw, 30px);
+      right: clamp(20px, 5vw, 30px);
+      background: rgba(255,255,255,0.85);
+      border: 4px solid #ff80ab;
       border-radius: 50%;
-      width: clamp(50px, 12vw, 70px);
-      height: clamp(50px, 12vw, 70px);
-      font-size: clamp(24px, 7vw, 36px);
+      width: clamp(60px, 14vw, 80px);
+      height: clamp(60px, 14vw, 80px);
+      font-size: clamp(28px, 8vw, 42px);
       cursor: pointer;
       z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 20px rgba(255,105,180,0.4);
+      box-shadow: 0 8px 25px rgba(255,105,180,0.4);
       transition: all 0.3s;
     }
     #musicToggle:hover { transform: scale(1.15); }
@@ -207,42 +223,45 @@
 
 <div class="hearts-bg" id="heartsBg"></div>
 
+<!-- Password screen -->
 <div id="loginPage">
   <div class="login-box">
-    <h1>Open My Heart? 💗</h1>
-    <input type="password" id="passwordInput" placeholder="Our little secret..." autocomplete="off">
-    <button id="unlockBtn">Enter 💞</button>
+    <h1>Unlock My Heart? 💗</h1>
+    <input type="password" id="passwordInput" placeholder="Our secret..." autocomplete="off">
+    <button id="unlockBtn">Open 💞</button>
   </div>
 </div>
 
-<div id="gamePage">
+<!-- Main content (game + win + letter) -->
+<div id="mainContent">
   <canvas id="gameCanvas"></canvas>
-  <div id="winMessage">
-    <div class="win-content">
-      <h2>You Did It! 🎯 10 Hearts!</h2>
-      <p>You shot straight into my heart... forever yours ❤️</p>
-      <p>I love you so much, [Her Name]!</p>
-      <p>Happy Valentine's Day, Mondher 😘</p>
-      <button id="openLetterBtn">Open Letter? 💌</button>
+
+  <!-- Win screen -->
+  <div id="winScreen">
+    <h2>A Letter for You 💌</h2>
+    <button id="openLetterBtn">Open Letter</button>
+  </div>
+
+  <!-- Letter screen -->
+  <div id="letterScreen">
+    <div id="letterContent">
+      <h2>My Sweetest [Her Name],</h2>
+      <p>Every time I look at you, my heart does little happy flips. You're my favorite person, my safe place, my everything.</p>
+      <p>I love your laugh, your smile, the way you make ordinary days feel magical. Thank you for being you.</p>
+      <p>Will you be my Valentine today... and always? 💕</p>
+      <p>Forever yours,<br>Mondher 🥰</p>
+      <button id="closeLetter">Close Letter</button>
     </div>
   </div>
 
+  <!-- Mute button -->
   <button id="musicToggle">🔊</button>
 </div>
 
-<div id="letterOverlay">
-  <div id="letterContent">
-    <h2>My Dearest [Her Name],</h2>
-    <p>From the moment I met you, my world became brighter. Every laugh, every look, every tiny moment with you feels like magic.</p>
-    <p>You make my heart race and feel safe at the same time. I promise to keep choosing you, every single day.</p>
-    <p>Will you be my Valentine... always? 💕</p>
-    <p>With all my love,<br>Mondher</p>
-    <button id="closeLetter">Close Letter</button>
-  </div>
-</div>
-
+<!-- Cute quiet background music -->
 <audio id="bgMusic" loop>
   <source src="Jorge Rivera-Herrans, Anna Lea - Would You Fall In Love With Me Again (Lyrics).mp3" type="audio/mpeg">
+  Your browser does not support audio.
 </audio>
 
 <script>
@@ -252,48 +271,50 @@ function createHeart() {
   heart.className = 'heart-float';
   heart.innerHTML = Math.random() > 0.5 ? '💗' : '❤️';
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.animationDuration = (Math.random() * 10 + 12) + 's';
-  heart.style.animationDelay = Math.random() * 6 + 's';
+  heart.style.animationDuration = (Math.random() * 10 + 14) + 's';
+  heart.style.animationDelay = Math.random() * 8 + 's';
   document.getElementById('heartsBg').appendChild(heart);
-  setTimeout(() => heart.remove(), 20000);
+  setTimeout(() => heart.remove(), 22000);
 }
-setInterval(createHeart, 500);
+setInterval(createHeart, 600);
 
-// Music
+// Music (very quiet)
 const music = document.getElementById('bgMusic');
-music.volume = 0.22;
+music.volume = 0.12; // very soft
 const toggleBtn = document.getElementById('musicToggle');
-let isMuted = true; // start muted to avoid autoplay blocks
+let isMuted = true;
 toggleBtn.textContent = '🔇';
+
 toggleBtn.onclick = () => {
   isMuted = !isMuted;
   if (isMuted) {
     music.pause();
     toggleBtn.textContent = '🔇';
   } else {
-    music.play().catch(() => console.log("Play blocked - tap again"));
+    music.play().catch(() => {});
     toggleBtn.textContent = '🔊';
   }
 };
 
 // Password
 const loginPage = document.getElementById('loginPage');
-const gamePage = document.getElementById('gamePage');
+const mainContent = document.getElementById('mainContent');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
-const correctPassword = "oursecretcode"; // CHANGE THIS!!
+const correctPassword = "oursecretcode"; // ← CHANGE THIS !!
 
 unlockBtn.onclick = () => {
   if (passwordInput.value.trim() === correctPassword) {
     loginPage.classList.add('hidden');
     setTimeout(() => {
       loginPage.style.display = 'none';
-      gamePage.classList.add('visible');
+      mainContent.classList.add('visible');
+      music.play().catch(() => {});
       startGame();
-    }, 1200);
+    }, 1300);
   } else {
-    alert("Wrong... try again 🥺");
+    alert("Wrong password... try again 🥺");
   }
 };
 
@@ -305,16 +326,16 @@ passwordInput.addEventListener('keypress', e => {
 function startGame() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
-  const winMessage = document.getElementById('winMessage');
+  const winScreen = document.getElementById('winScreen');
   const openLetterBtn = document.getElementById('openLetterBtn');
-  const letterOverlay = document.getElementById('letterOverlay');
+  const letterScreen = document.getElementById('letterScreen');
   const closeLetter = document.getElementById('closeLetter');
 
   let hasWon = false;
 
   function resize() {
     canvas.width = Math.min(window.innerWidth * 0.98, 800);
-    canvas.height = Math.min(window.innerHeight * 0.82, 580);
+    canvas.height = Math.min(window.innerHeight * 0.80, 580);
   }
   resize();
   window.addEventListener('resize', resize);
@@ -376,12 +397,13 @@ function startGame() {
   setInterval(() => hearts.push(new Heart()), 900);
 
   openLetterBtn.onclick = () => {
-    winMessage.style.display = 'none';
-    letterOverlay.style.display = 'flex';
+    winScreen.style.display = 'none';
+    letterScreen.style.display = 'flex';
   };
 
   closeLetter.onclick = () => {
-    letterOverlay.style.display = 'none';
+    letterScreen.style.display = 'none';
+    // You can keep playing or leave it here
   };
 
   function loop() {
@@ -439,9 +461,11 @@ function startGame() {
     }
     hearts = newHearts;
 
+    // Show win screen when 10 reached
     if (score >= goal && !hasWon) {
       hasWon = true;
-      winMessage.style.display = 'flex';
+      canvas.style.display = 'none'; // hide game canvas
+      winScreen.style.display = 'flex';
     }
 
     ctx.fillStyle = '#c2185b';
