@@ -15,6 +15,7 @@
       position: relative;
     }
 
+    /* Floating hearts background */
     .hearts-bg {
       position: fixed;
       inset: 0;
@@ -33,6 +34,7 @@
       100% { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
     }
 
+    /* Login / Password page */
     #loginPage {
       position: fixed;
       inset: 0;
@@ -66,7 +68,6 @@
     .login-box h1 {
       font-size: clamp(2.5em, 9vw, 4em);
       margin-bottom: 25px;
-      text-shadow: 2px 2px 6px rgba(216,27,96,0.3);
     }
     .login-box input {
       width: 100%;
@@ -78,7 +79,6 @@
       font-size: 1.4em;
       text-align: center;
       outline: none;
-      transition: border-color 0.3s;
     }
     .login-box input:focus { border-color: #f50057; }
     .login-box button {
@@ -97,6 +97,7 @@
       box-shadow: 0 12px 35px rgba(245,0,87,0.55);
     }
 
+    /* Game container */
     #gamePage {
       opacity: 0;
       transition: opacity 1.5s ease;
@@ -116,6 +117,7 @@
       touch-action: none;
     }
 
+    /* Win message overlay */
     #winMessage {
       position: fixed;
       inset: 0;
@@ -141,17 +143,9 @@
       text-align: center;
       color: #d81b60;
       box-shadow: 0 25px 80px rgba(216,27,96,0.5);
-      position: relative;
     }
-    .win-content h2 {
-      font-size: clamp(2.4em, 9vw, 3.8em);
-      margin-bottom: 20px;
-    }
-    .win-content p {
-      font-size: clamp(1.4em, 5vw, 2em);
-      line-height: 1.5;
-      margin: 15px 0;
-    }
+    .win-content h2 { font-size: clamp(2.4em, 9vw, 3.8em); margin-bottom: 20px; }
+    .win-content p { font-size: clamp(1.4em, 5vw, 2em); line-height: 1.5; margin: 15px 0; }
     #openLetterBtn {
       background: #f50057;
       color: white;
@@ -165,6 +159,7 @@
     }
     #openLetterBtn:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(245,0,87,0.5); }
 
+    /* Letter overlay */
     #letterOverlay {
       position: fixed;
       inset: 0;
@@ -187,7 +182,7 @@
     }
     #letterContent h2 { font-size: clamp(2.2em, 8vw, 3.5em); margin-bottom: 25px; }
     #letterContent p { font-size: clamp(1.3em, 5vw, 1.9em); line-height: 1.6; white-space: pre-wrap; }
-    #closeLetter { 
+    #closeLetter {
       margin-top: 30px;
       background: #ec407a;
       color: white;
@@ -198,6 +193,7 @@
       cursor: pointer;
     }
 
+    /* Mute / Unmute button */
     #musicToggle {
       position: fixed;
       bottom: clamp(15px, 4vw, 25px);
@@ -226,7 +222,7 @@
 <!-- Password / Login Screen -->
 <div id="loginPage">
   <div class="login-box">
-    <h1>Will You Open My Heart? 💗</h1>
+    <h1>Open My Heart? 💗</h1>
     <input type="password" id="passwordInput" placeholder="Our little secret..." autocomplete="off">
     <button id="unlockBtn">Enter 💞</button>
   </div>
@@ -264,9 +260,8 @@
 
 <!-- Background Music -->
 <audio id="bgMusic" loop>
-  <!-- Free romantic piano loop (no copyright / CC0 / public domain style) -->
   <source src="https://cdn.pixabay.com/audio/2023/08/07/audio_3d4b3b6a8d.mp3" type="audio/mpeg">
-  <!-- Alternative if link dies: https://www.chosic.com/wp-content/uploads/2021/07/Piano-Romantic.mp3 -->
+  <!-- Alternative free romantic track if needed: https://www.chosic.com/wp-content/uploads/2021/07/Piano-Romantic.mp3 -->
 </audio>
 
 <script>
@@ -290,8 +285,13 @@ const toggleBtn = document.getElementById('musicToggle');
 let isMuted = false;
 toggleBtn.onclick = () => {
   isMuted = !isMuted;
-  music[isMuted ? 'pause' : 'play']().catch(() => {});
-  toggleBtn.textContent = isMuted ? '🔇' : '🔊';
+  if (isMuted) {
+    music.pause();
+    toggleBtn.textContent = '🔇';
+  } else {
+    music.play().catch(() => {});
+    toggleBtn.textContent = '🔊';
+  }
 };
 
 // Password logic
@@ -300,7 +300,7 @@ const gamePage = document.getElementById('gamePage');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
-const correctPassword = "oursecretcode"; // CHANGE THIS !!
+const correctPassword = "oursecretcode"; // ← CHANGE THIS !!
 
 unlockBtn.onclick = () => {
   if (passwordInput.value.trim() === correctPassword) {
@@ -339,7 +339,6 @@ function startGame() {
   window.addEventListener('resize', resize);
   window.addEventListener('orientationchange', resize);
 
-  // Images (fallback if missing)
   const cupidImg = new Image(); cupidImg.src = 'cupid.png';
   const arrowImg = new Image(); arrowImg.src = 'arrow.png';
   const heartImg = new Image(); heartImg.src = 'Red pixel heart.png';
@@ -365,13 +364,7 @@ function startGame() {
     e.preventDefault();
     updateAim(e);
     const angle = Math.atan2(aim.y - cupid.y, aim.x - (cupid.x + cupid.size));
-    arrows.push({
-      x: cupid.x + cupid.size,
-      y: cupid.y,
-      vx: Math.cos(angle) * 12,
-      vy: Math.sin(angle) * 12,
-      rotation: angle
-    });
+    arrows.push({ x: cupid.x + cupid.size, y: cupid.y, vx: Math.cos(angle)*12, vy: Math.sin(angle)*12, rotation: angle });
   }
 
   canvas.addEventListener('mousemove', updateAim);
@@ -413,7 +406,6 @@ function startGame() {
   function loop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Cupid draw
     if (cupidImg.complete) {
       ctx.drawImage(cupidImg, cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
     } else {
@@ -421,7 +413,6 @@ function startGame() {
       ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
     }
 
-    // Bow
     ctx.beginPath();
     ctx.moveTo(cupid.x + cupid.size, cupid.y);
     ctx.lineTo(aim.x, aim.y);
@@ -429,8 +420,8 @@ function startGame() {
     ctx.lineWidth = 6;
     ctx.stroke();
 
-    // Arrows
-    arrows.forEach((a, i) => {
+    let newArrows = [];
+    for (let a of arrows) {
       a.x += a.vx;
       a.y += a.vy;
       ctx.save();
@@ -443,29 +434,36 @@ function startGame() {
         ctx.fillRect(-35, -8, 70, 16);
       }
       ctx.restore();
-      if (a.x > canvas.width + 150 || a.y < -100 || a.y > canvas.height + 100) arrows.splice(i, 1);
-    });
+      if (a.x < canvas.width + 150 && a.y > -100 && a.y < canvas.height + 100) newArrows.push(a);
+    }
+    arrows = newArrows;
 
-    // Hearts
-    hearts.forEach((h, i) => {
+    let newHearts = [];
+    for (let h of hearts) {
       h.update();
       h.draw();
-      if (h.x < -100) hearts.splice(i, 1);
 
-      arrows.forEach((a, j) => {
-        if (Math.hypot(a.x - h.x, a.y - h.y) < h.size / 1.3) {
+      let hit = false;
+      for (let i = 0; i < arrows.length; i++) {
+        let a = arrows[i];
+        if (Math.hypot(a.x - h.x, a.y - h.y) < h.size / 1.2) {
           score++;
-          arrows.splice(j, 1);
-          hearts.splice(i, 1);
-          if (score >= goal && !hasWon) {
-            hasWon = true;
-            winMessage.style.display = 'flex';
-          }
+          hit = true;
+          arrows.splice(i, 1);
+          break;
         }
-      });
-    });
+      }
 
-    // Score
+      if (!hit && h.x > -100) newHearts.push(h);
+    }
+    hearts = newHearts;
+
+    // Reliable win check
+    if (score >= goal && !hasWon) {
+      hasWon = true;
+      winMessage.style.display = 'flex';
+    }
+
     ctx.fillStyle = '#c2185b';
     ctx.font = `bold ${Math.max(34, canvas.width * 0.085)}px cursive`;
     ctx.fillText(`Hearts: ${score} / ${goal}`, 30, 70);
