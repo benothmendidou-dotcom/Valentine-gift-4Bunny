@@ -15,7 +15,6 @@
       position: relative;
     }
 
-    /* Floating hearts background */
     .hearts-bg {
       position: fixed;
       inset: 0;
@@ -34,7 +33,6 @@
       100% { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
     }
 
-    /* Login / Password page */
     #loginPage {
       position: fixed;
       inset: 0;
@@ -65,10 +63,7 @@
       from { box-shadow: 0 25px 70px rgba(255,105,180,0.35); }
       to   { box-shadow: 0 35px 90px rgba(255,105,180,0.55); }
     }
-    .login-box h1 {
-      font-size: clamp(2.5em, 9vw, 4em);
-      margin-bottom: 25px;
-    }
+    .login-box h1 { font-size: clamp(2.5em, 9vw, 4em); margin-bottom: 25px; }
     .login-box input {
       width: 100%;
       max-width: 340px;
@@ -92,12 +87,8 @@
       box-shadow: 0 8px 25px rgba(245,0,87,0.4);
       transition: all 0.3s;
     }
-    .login-box button:hover {
-      transform: translateY(-4px) scale(1.06);
-      box-shadow: 0 12px 35px rgba(245,0,87,0.55);
-    }
+    .login-box button:hover { transform: translateY(-4px) scale(1.06); box-shadow: 0 12px 35px rgba(245,0,87,0.55); }
 
-    /* Game container */
     #gamePage {
       opacity: 0;
       transition: opacity 1.5s ease;
@@ -117,7 +108,6 @@
       touch-action: none;
     }
 
-    /* Win message overlay */
     #winMessage {
       position: fixed;
       inset: 0;
@@ -159,7 +149,6 @@
     }
     #openLetterBtn:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(245,0,87,0.5); }
 
-    /* Letter overlay */
     #letterOverlay {
       position: fixed;
       inset: 0;
@@ -193,7 +182,6 @@
       cursor: pointer;
     }
 
-    /* Mute / Unmute button */
     #musicToggle {
       position: fixed;
       bottom: clamp(15px, 4vw, 25px);
@@ -219,7 +207,6 @@
 
 <div class="hearts-bg" id="heartsBg"></div>
 
-<!-- Password / Login Screen -->
 <div id="loginPage">
   <div class="login-box">
     <h1>Open My Heart? 💗</h1>
@@ -228,7 +215,6 @@
   </div>
 </div>
 
-<!-- Game Screen -->
 <div id="gamePage">
   <canvas id="gameCanvas"></canvas>
   <div id="winMessage">
@@ -241,11 +227,9 @@
     </div>
   </div>
 
-  <!-- Mute / Unmute Button -->
   <button id="musicToggle">🔊</button>
 </div>
 
-<!-- Letter Overlay -->
 <div id="letterOverlay">
   <div id="letterContent">
     <h2>My Dearest [Her Name],</h2>
@@ -253,19 +237,18 @@
     <p>You make my heart race and feel safe at the same time. I promise to keep choosing you, every single day.</p>
     <p>Will you be my Valentine... always? 💕</p>
     <p>With all my love,<br>Mondher</p>
-    <!-- Optional photo: <img src="images/us-together.jpg" style="max-width:80%; border-radius:20px; margin:20px 0;"> -->
     <button id="closeLetter">Close Letter</button>
   </div>
 </div>
 
-<!-- Background Music -->
 <audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/audio/2023/08/07/audio_3d4b3b6a8d.mp3" type="audio/mpeg">
-  <!-- Alternative free romantic track if needed: https://www.chosic.com/wp-content/uploads/2021/07/Piano-Romantic.mp3 -->
+  <!-- Stable free romantic piano loop (from Chosic, CC0-style) -->
+  <source src="https://www.chosic.com/wp-content/uploads/2021/07/Piano-Romantic.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
 </audio>
 
 <script>
-// Floating hearts animation
+// Floating hearts
 function createHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart-float';
@@ -278,29 +261,30 @@ function createHeart() {
 }
 setInterval(createHeart, 500);
 
-// Music control
+// Music
 const music = document.getElementById('bgMusic');
 music.volume = 0.22;
 const toggleBtn = document.getElementById('musicToggle');
-let isMuted = false;
+let isMuted = true; // start muted to avoid autoplay blocks
+toggleBtn.textContent = '🔇';
 toggleBtn.onclick = () => {
   isMuted = !isMuted;
   if (isMuted) {
     music.pause();
     toggleBtn.textContent = '🔇';
   } else {
-    music.play().catch(() => {});
+    music.play().catch(() => console.log("Play blocked - tap again"));
     toggleBtn.textContent = '🔊';
   }
 };
 
-// Password logic
+// Password
 const loginPage = document.getElementById('loginPage');
 const gamePage = document.getElementById('gamePage');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
-const correctPassword = "oursecretcode"; // ← CHANGE THIS !!
+const correctPassword = "oursecretcode"; // CHANGE THIS!!
 
 unlockBtn.onclick = () => {
   if (passwordInput.value.trim() === correctPassword) {
@@ -308,11 +292,10 @@ unlockBtn.onclick = () => {
     setTimeout(() => {
       loginPage.style.display = 'none';
       gamePage.classList.add('visible');
-      music.play().catch(() => console.log("Autoplay blocked – tap screen if no sound"));
       startGame();
     }, 1200);
   } else {
-    alert("Wrong... try again 🥺 (Hint: our special thing)");
+    alert("Wrong... try again 🥺");
   }
 };
 
@@ -320,7 +303,7 @@ passwordInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') unlockBtn.click();
 });
 
-// Game logic
+// Game
 function startGame() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
@@ -458,7 +441,6 @@ function startGame() {
     }
     hearts = newHearts;
 
-    // Reliable win check
     if (score >= goal && !hasWon) {
       hasWon = true;
       winMessage.style.display = 'flex';
@@ -471,6 +453,11 @@ function startGame() {
     requestAnimationFrame(loop);
   }
 
+  loop();
+}
+  </script>
+</body>
+</html>
   loop();
 }
   </script>
