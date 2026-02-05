@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>My Heart Awaits You 💕</title>
+  <title>To My Valentine 💕</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -11,235 +11,323 @@
       color: #fff;
       height: 100vh;
       overflow: hidden;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fad0c4 100%);
+      background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
       position: relative;
     }
 
-    /* Floating hearts background */
     .hearts-bg {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      overflow: hidden;
       z-index: 0;
     }
     .heart-float {
       position: absolute;
-      font-size: clamp(18px, 4vw, 32px);
-      color: rgba(255, 105, 180, 0.7);
-      animation: float linear infinite;
-      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      font-size: clamp(20px, 5vw, 40px);
+      color: rgba(255,182,193,0.75);
+      animation: float 12s linear infinite;
+      text-shadow: 0 0 12px #fff;
     }
     @keyframes float {
-      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0.6; }
-      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
     }
 
-    /* Login page */
     #loginPage {
       position: fixed;
       inset: 0;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      z-index: 10;
-      background: rgba(0,0,0,0.15);
-      backdrop-filter: blur(6px);
-      transition: opacity 1s ease, transform 1s ease;
+      justify-content: center;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      z-index: 20;
+      transition: opacity 1.2s ease, transform 1.2s ease;
     }
     #loginPage.hidden {
       opacity: 0;
-      transform: scale(1.05);
+      transform: scale(1.08);
       pointer-events: none;
     }
     .login-box {
-      background: rgba(255,255,255,0.92);
-      border-radius: 24px;
-      padding: clamp(30px, 8vw, 50px);
-      box-shadow: 0 20px 60px rgba(231,76,60,0.4);
+      background: rgba(255,255,255,0.94);
+      border-radius: 32px;
+      padding: clamp(40px, 10vw, 60px);
+      box-shadow: 0 25px 70px rgba(255,105,180,0.45);
       text-align: center;
-      max-width: 90%;
-      color: #c0392b;
-      animation: glow 3s ease-in-out infinite alternate;
+      max-width: 92%;
+      color: #d81b60;
+      animation: softGlow 4s ease-in-out infinite alternate;
     }
-    @keyframes glow {
-      from { box-shadow: 0 20px 60px rgba(231,76,60,0.3); }
-      to   { box-shadow: 0 30px 80px rgba(231,76,60,0.5); }
+    @keyframes softGlow {
+      from { box-shadow: 0 25px 70px rgba(255,105,180,0.35); }
+      to   { box-shadow: 0 35px 90px rgba(255,105,180,0.55); }
     }
     .login-box h1 {
-      font-size: clamp(2.2em, 8vw, 3.5em);
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 4px rgba(255,105,180,0.6);
+      font-size: clamp(2.5em, 9vw, 4em);
+      margin-bottom: 25px;
+      text-shadow: 2px 2px 6px rgba(216,27,96,0.3);
     }
     .login-box input {
       width: 100%;
-      max-width: 320px;
-      padding: 14px 20px;
-      margin: 15px 0;
-      border: 2px solid #ff69b4;
-      border-radius: 30px;
-      font-size: 1.2em;
+      max-width: 340px;
+      padding: 16px 24px;
+      margin: 20px 0;
+      border: 3px solid #ff80ab;
+      border-radius: 999px;
+      font-size: 1.4em;
       text-align: center;
       outline: none;
+      transition: border-color 0.3s;
     }
+    .login-box input:focus { border-color: #f50057; }
     .login-box button {
-      background: #ff3366;
+      background: linear-gradient(45deg, #f50057, #ff4081);
       color: white;
       border: none;
-      padding: 14px 40px;
-      font-size: 1.3em;
-      border-radius: 50px;
+      padding: 16px 50px;
+      font-size: 1.5em;
+      border-radius: 999px;
       cursor: pointer;
-      margin-top: 10px;
+      box-shadow: 0 8px 25px rgba(245,0,87,0.4);
       transition: all 0.3s;
     }
     .login-box button:hover {
-      background: #e91e63;
-      transform: scale(1.08);
+      transform: translateY(-4px) scale(1.06);
+      box-shadow: 0 12px 35px rgba(245,0,87,0.55);
     }
 
-    /* Game page */
     #gamePage {
-      position: fixed;
-      inset: 0;
       opacity: 0;
-      transition: opacity 1.2s ease;
+      transition: opacity 1.5s ease;
       pointer-events: none;
     }
-    #gamePage.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    #gamePage.visible { opacity: 1; pointer-events: auto; }
+
     canvas {
-      border: clamp(3px, 1vw, 5px) solid #e74c3c;
-      background: rgba(255,240,245,0.85);
-      border-radius: clamp(16px, 5vw, 28px);
-      box-shadow: 0 0 clamp(30px, 8vw, 50px) rgba(231,76,60,0.45);
+      border: clamp(4px, 1.2vw, 6px) solid #ec407a;
+      background: rgba(255,245,248,0.9);
+      border-radius: clamp(20px, 6vw, 32px);
+      box-shadow: 0 0 clamp(35px, 9vw, 60px) rgba(236,64,122,0.4);
       display: block;
-      margin: clamp(10px, 4vw, 20px) auto;
+      margin: clamp(12px, 4vw, 22px) auto;
       max-width: 98%;
-      max-height: 82vh;
+      max-height: 84vh;
       touch-action: none;
     }
 
     #winMessage {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
-      background: rgba(255,255,255,0.97);
-      padding: clamp(35px, 9vw, 55px) clamp(40px, 10vw, 65px);
-      border-radius: clamp(24px, 7vw, 36px);
-      box-shadow: 0 0 clamp(50px, 12vw, 80px) rgba(255,105,180,0.85);
-      font-size: clamp(2.1em, 8vw, 3.2em);
-      line-height: 1.5;
-      color: #c0392b;
-      text-align: center;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.9s ease-out, transform 0.9s ease-out;
-      z-index: 100;
-      max-width: 94%;
+      transition: opacity 0.9s ease;
     }
     #winMessage.show {
       opacity: 1;
       visibility: visible;
-      transform: translate(-50%, -50%) scale(1);
     }
-    #closeBtn {
-      position: absolute;
-      top: clamp(10px, 3vw, 16px);
-      right: clamp(14px, 4vw, 20px);
-      font-size: clamp(42px, 11vw, 56px);
-      color: #e74c3c;
-      background: none;
+    .win-content {
+      background: rgba(255,255,255,0.97);
+      border-radius: 32px;
+      padding: clamp(40px, 10vw, 65px);
+      max-width: 92%;
+      text-align: center;
+      color: #d81b60;
+      box-shadow: 0 25px 80px rgba(216,27,96,0.5);
+      position: relative;
+    }
+    .win-content h2 {
+      font-size: clamp(2.4em, 9vw, 3.8em);
+      margin-bottom: 20px;
+    }
+    .win-content p {
+      font-size: clamp(1.4em, 5vw, 2em);
+      line-height: 1.5;
+      margin: 15px 0;
+    }
+    #openLetterBtn {
+      background: #f50057;
+      color: white;
       border: none;
+      padding: 16px 48px;
+      font-size: 1.4em;
+      border-radius: 999px;
+      margin-top: 25px;
       cursor: pointer;
       transition: all 0.3s;
     }
-    #closeBtn:hover { color: #c0392b; transform: scale(1.3); }
+    #openLetterBtn:hover { transform: scale(1.1); box-shadow: 0 10px 30px rgba(245,0,87,0.5); }
+
+    #letterOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 25;
+    }
+    #letterContent {
+      background: #fff0f5;
+      border-radius: 28px;
+      padding: clamp(35px, 8vw, 55px);
+      max-width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      text-align: center;
+      color: #c2185b;
+      box-shadow: 0 20px 70px rgba(194,24,91,0.5);
+    }
+    #letterContent h2 { font-size: clamp(2.2em, 8vw, 3.5em); margin-bottom: 25px; }
+    #letterContent p { font-size: clamp(1.3em, 5vw, 1.9em); line-height: 1.6; white-space: pre-wrap; }
+    #closeLetter { 
+      margin-top: 30px;
+      background: #ec407a;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      font-size: 1.3em;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    #musicToggle {
+      position: fixed;
+      bottom: clamp(15px, 4vw, 25px);
+      right: clamp(15px, 4vw, 25px);
+      background: rgba(255,255,255,0.8);
+      border: 3px solid #ff80ab;
+      border-radius: 50%;
+      width: clamp(50px, 12vw, 70px);
+      height: clamp(50px, 12vw, 70px);
+      font-size: clamp(24px, 7vw, 36px);
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(255,105,180,0.4);
+      transition: all 0.3s;
+    }
+    #musicToggle:hover { transform: scale(1.15); }
   </style>
 </head>
 <body>
 
 <div class="hearts-bg" id="heartsBg"></div>
 
-<!-- LOGIN PAGE -->
+<!-- Password / Login Screen -->
 <div id="loginPage">
   <div class="login-box">
-    <h1>Open My Heart? 💗</h1>
-    <input type="password" id="passwordInput" placeholder="Enter our secret..." autocomplete="off">
-    <button id="unlockBtn">Unlock 💞</button>
+    <h1>Will You Open My Heart? 💗</h1>
+    <input type="password" id="passwordInput" placeholder="Our little secret..." autocomplete="off">
+    <button id="unlockBtn">Enter 💞</button>
   </div>
 </div>
 
-<!-- GAME PAGE -->
+<!-- Game Screen -->
 <div id="gamePage">
   <canvas id="gameCanvas"></canvas>
   <div id="winMessage">
-    <button id="closeBtn">×</button>
-    You hit 10 hearts! 🎯<br>
-    You already own mine forever ❤️<br>
-    I love you so much, [Her Name]!<br>
-    Happy Valentine's from Mondher 😘
+    <div class="win-content">
+      <h2>You Did It! 🎯 10 Hearts!</h2>
+      <p>You shot straight into my heart... forever yours ❤️</p>
+      <p>I love you so much, [Her Name]!</p>
+      <p>Happy Valentine's Day, Mondher 😘</p>
+      <button id="openLetterBtn">Open Letter? 💌</button>
+    </div>
+  </div>
+
+  <!-- Mute / Unmute Button -->
+  <button id="musicToggle">🔊</button>
+</div>
+
+<!-- Letter Overlay -->
+<div id="letterOverlay">
+  <div id="letterContent">
+    <h2>My Dearest [Her Name],</h2>
+    <p>From the moment I met you, my world became brighter. Every laugh, every look, every tiny moment with you feels like magic.</p>
+    <p>You make my heart race and feel safe at the same time. I promise to keep choosing you, every single day.</p>
+    <p>Will you be my Valentine... always? 💕</p>
+    <p>With all my love,<br>Mondher</p>
+    <!-- Optional photo: <img src="images/us-together.jpg" style="max-width:80%; border-radius:20px; margin:20px 0;"> -->
+    <button id="closeLetter">Close Letter</button>
   </div>
 </div>
 
+<!-- Background Music -->
 <audio id="bgMusic" loop>
-  <source src="https://www.free-stock-music.com/storage/tracks/previews/alex-productions-love-preview.mp3" type="audio/mpeg">
-  <!-- Fallback if direct link breaks – replace with your own uploaded mp3 if needed -->
+  <!-- Free romantic piano loop (no copyright / CC0 / public domain style) -->
+  <source src="https://cdn.pixabay.com/audio/2023/08/07/audio_3d4b3b6a8d.mp3" type="audio/mpeg">
+  <!-- Alternative if link dies: https://www.chosic.com/wp-content/uploads/2021/07/Piano-Romantic.mp3 -->
 </audio>
 
 <script>
-// Floating hearts background
+// Floating hearts animation
 function createHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart-float';
-  heart.innerHTML = '💗';
+  heart.innerHTML = Math.random() > 0.5 ? '💗' : '❤️';
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.animationDuration = (Math.random() * 8 + 10) + 's';
-  heart.style.animationDelay = Math.random() * 5 + 's';
+  heart.style.animationDuration = (Math.random() * 10 + 12) + 's';
+  heart.style.animationDelay = Math.random() * 6 + 's';
   document.getElementById('heartsBg').appendChild(heart);
-  setTimeout(() => heart.remove(), 15000);
+  setTimeout(() => heart.remove(), 20000);
 }
-setInterval(createHeart, 400);
+setInterval(createHeart, 500);
 
-// Music (plays when game starts – may need user interaction on mobile)
+// Music control
 const music = document.getElementById('bgMusic');
-music.volume = 0.25;
+music.volume = 0.22;
+const toggleBtn = document.getElementById('musicToggle');
+let isMuted = false;
+toggleBtn.onclick = () => {
+  isMuted = !isMuted;
+  music[isMuted ? 'pause' : 'play']().catch(() => {});
+  toggleBtn.textContent = isMuted ? '🔇' : '🔊';
+};
 
-// Password page
+// Password logic
 const loginPage = document.getElementById('loginPage');
 const gamePage = document.getElementById('gamePage');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
-const correctPassword = "oursecretcode"; // CHANGE THIS
+const correctPassword = "oursecretcode"; // CHANGE THIS !!
 
 unlockBtn.onclick = () => {
-  if (passwordInput.value === correctPassword) {
+  if (passwordInput.value.trim() === correctPassword) {
     loginPage.classList.add('hidden');
     setTimeout(() => {
       loginPage.style.display = 'none';
       gamePage.classList.add('visible');
-      music.play().catch(() => {}); // autoplay may be blocked – user can tap if needed
+      music.play().catch(() => console.log("Autoplay blocked – tap screen if no sound"));
       startGame();
-    }, 1000);
+    }, 1200);
   } else {
-    alert("Wrong password... try again 🥺");
+    alert("Wrong... try again 🥺 (Hint: our special thing)");
   }
 };
 
-// Enter key support
 passwordInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') unlockBtn.click();
 });
 
+// Game logic
 function startGame() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
-  const winMsg = document.getElementById('winMessage');
+  const winMessage = document.getElementById('winMessage');
+  const openLetterBtn = document.getElementById('openLetterBtn');
+  const letterOverlay = document.getElementById('letterOverlay');
+  const closeLetter = document.getElementById('closeLetter');
 
   let hasWon = false;
 
@@ -251,43 +339,39 @@ function startGame() {
   window.addEventListener('resize', resize);
   window.addEventListener('orientationchange', resize);
 
-  // Images...
-  const cupidSrc     = 'cupid.png';
-  const arrowSrc     = 'arrow.png';
-  const heartSrc     = 'Red pixel heart.png';
-
-  const cupidImg = new Image(); cupidImg.src = cupidSrc;
-  const arrowImg = new Image(); arrowImg.src = arrowSrc;
-  const heartImg = new Image(); heartImg.src = heartSrc;
+  // Images (fallback if missing)
+  const cupidImg = new Image(); cupidImg.src = 'cupid.png';
+  const arrowImg = new Image(); arrowImg.src = 'arrow.png';
+  const heartImg = new Image(); heartImg.src = 'Red pixel heart.png';
 
   let score = 0;
   const goal = 10;
   let arrows = [];
   let hearts = [];
 
-  const cupid = { 
-    x: canvas.width * 0.12, 
-    y: canvas.height / 2, 
-    size: Math.max(70, Math.min(canvas.width * 0.22, 110)) 
-  };
+  const cupid = { x: canvas.width * 0.12, y: canvas.height / 2, size: Math.max(70, canvas.width * 0.22) };
 
   let aim = { x: canvas.width / 2, y: canvas.height / 2 };
 
   function updateAim(e) {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.clientX || (e.touches && e.touches[0]?.clientX);
-    const clientY = e.clientY || (e.touches && e.touches[0]?.clientY);
-    aim.x = clientX - rect.left;
-    aim.y = clientY - rect.top;
+    const touch = e.touches ? e.touches[0] : e;
+    aim.x = touch.clientX - rect.left;
+    aim.y = touch.clientY - rect.top;
   }
 
   function shoot(e) {
     e.preventDefault();
     updateAim(e);
     const angle = Math.atan2(aim.y - cupid.y, aim.x - (cupid.x + cupid.size));
-    const speed = 12;
-    arrows.push({ x: cupid.x + cupid.size, y: cupid.y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, rotation: angle });
+    arrows.push({
+      x: cupid.x + cupid.size,
+      y: cupid.y,
+      vx: Math.cos(angle) * 12,
+      vy: Math.sin(angle) * 12,
+      rotation: angle
+    });
   }
 
   canvas.addEventListener('mousemove', updateAim);
@@ -297,90 +381,94 @@ function startGame() {
 
   class Heart {
     constructor() {
-      this.x = canvas.width + 50;
-      this.y = Math.random() * (canvas.height - 140) + 70;
-      this.size = Math.max(55, Math.min(canvas.width * 0.14, 90));
-      this.speed = 2.2 + Math.random() * 3.2;
+      this.x = canvas.width + 60;
+      this.y = Math.random() * (canvas.height - 160) + 80;
+      this.size = Math.max(60, canvas.width * 0.14);
+      this.speed = 2.5 + Math.random() * 3.5;
     }
     update() { this.x -= this.speed; }
     draw() {
-      if (heartImg.complete && heartImg.naturalHeight !== 0) {
+      if (heartImg.complete) {
         ctx.drawImage(heartImg, this.x - this.size/2, this.y - this.size/2, this.size, this.size);
       } else {
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size/2, this.x + this.size, this.y + this.size/3, this.x, this.y + this.size);
-        ctx.bezierCurveTo(this.x - this.size, this.y + this.size/3, this.x - this.size/2, this.y - this.size/2, this.x, this.y);
-        ctx.fillStyle = '#ff3366';
+        ctx.arc(this.x, this.y, this.size/2, 0, Math.PI*2);
+        ctx.fillStyle = '#ff4081';
         ctx.fill();
       }
     }
   }
 
-  setInterval(() => hearts.push(new Heart()), 1000);
+  setInterval(() => hearts.push(new Heart()), 900);
 
-  document.getElementById('closeBtn').addEventListener('click', () => {
-    winMsg.classList.remove('show');
-  });
+  openLetterBtn.onclick = () => {
+    winMessage.style.display = 'none';
+    letterOverlay.style.display = 'flex';
+  };
+
+  closeLetter.onclick = () => {
+    letterOverlay.style.display = 'none';
+  };
 
   function loop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (cupidImg.complete && cupidImg.naturalHeight !== 0) {
+    // Cupid draw
+    if (cupidImg.complete) {
       ctx.drawImage(cupidImg, cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
     } else {
-      ctx.fillStyle = 'pink';
+      ctx.fillStyle = '#ff80ab';
       ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
-      ctx.fillStyle = '#ff69b4';
-      ctx.beginPath();
-      ctx.arc(cupid.x + cupid.size/2, cupid.y - cupid.size/3, cupid.size/4, 0, Math.PI*2);
-      ctx.fill();
     }
 
+    // Bow
     ctx.beginPath();
     ctx.moveTo(cupid.x + cupid.size, cupid.y);
     ctx.lineTo(aim.x, aim.y);
-    ctx.strokeStyle = 'brown';
-    ctx.lineWidth = clamp(4, canvas.width * 0.008, 7);
+    ctx.strokeStyle = '#8d5524';
+    ctx.lineWidth = 6;
     ctx.stroke();
 
-    arrows = arrows.filter(a => {
+    // Arrows
+    arrows.forEach((a, i) => {
       a.x += a.vx;
       a.y += a.vy;
-      if (arrowImg.complete && arrowImg.naturalHeight !== 0) {
-        ctx.save();
-        ctx.translate(a.x, a.y);
-        ctx.rotate(a.rotation);
-        ctx.drawImage(arrowImg, -30, -15, 60, 30);
-        ctx.restore();
+      ctx.save();
+      ctx.translate(a.x, a.y);
+      ctx.rotate(a.rotation);
+      if (arrowImg.complete) {
+        ctx.drawImage(arrowImg, -35, -17.5, 70, 35);
       } else {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(a.x - 15, a.y - 7.5, 40, 15);
+        ctx.fillStyle = '#f50057';
+        ctx.fillRect(-35, -8, 70, 16);
       }
-      return a.x < canvas.width + 120 && a.y > -60 && a.y < canvas.height + 60;
+      ctx.restore();
+      if (a.x > canvas.width + 150 || a.y < -100 || a.y > canvas.height + 100) arrows.splice(i, 1);
     });
 
-    hearts = hearts.filter(h => {
+    // Hearts
+    hearts.forEach((h, i) => {
       h.update();
       h.draw();
-      let hit = false;
-      arrows.forEach((a, ai) => {
-        if (Math.hypot(a.x - h.x, a.y - h.y) < h.size / 1.4) {
+      if (h.x < -100) hearts.splice(i, 1);
+
+      arrows.forEach((a, j) => {
+        if (Math.hypot(a.x - h.x, a.y - h.y) < h.size / 1.3) {
           score++;
-          hit = true;
-          arrows.splice(ai, 1);
+          arrows.splice(j, 1);
+          hearts.splice(i, 1);
           if (score >= goal && !hasWon) {
             hasWon = true;
-            winMsg.classList.add('show');
+            winMessage.style.display = 'flex';
           }
         }
       });
-      return h.x > -60 && !hit;
     });
 
-    ctx.fillStyle = 'black';
-    ctx.font = `bold ${Math.max(32, Math.min(canvas.width * 0.08, 48))}px cursive`;
-    ctx.fillText(`Hearts: ${score} / ${goal}`, 25, 60);
+    // Score
+    ctx.fillStyle = '#c2185b';
+    ctx.font = `bold ${Math.max(34, canvas.width * 0.085)}px cursive`;
+    ctx.fillText(`Hearts: ${score} / ${goal}`, 30, 70);
 
     requestAnimationFrame(loop);
   }
