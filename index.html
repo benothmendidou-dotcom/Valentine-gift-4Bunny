@@ -3,83 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Password to My Heart 💖</title>
+  <title>My Heart Awaits You 💕</title>
   <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      color: #c0392b;
-      text-align: center;
+      color: #fff;
       height: 100vh;
       overflow: hidden;
-      touch-action: none;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fad0c4 100%);
+      position: relative;
     }
-    h1 {
-      margin: clamp(6px, 3vw, 12px) clamp(10px, 4vw, 20px);
-      font-size: clamp(2em, 8vw, 3.2em);
-      line-height: 1.1;
-      text-shadow: 1px 1px 3px rgba(255,105,180,0.6);
+
+    /* Floating hearts background */
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .heart-float {
+      position: absolute;
+      font-size: clamp(18px, 4vw, 32px);
+      color: rgba(255, 105, 180, 0.7);
+      animation: float linear infinite;
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0.6; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Login page */
+    #loginPage {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      background: rgba(0,0,0,0.15);
+      backdrop-filter: blur(6px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    #loginPage.hidden {
+      opacity: 0;
+      transform: scale(1.05);
+      pointer-events: none;
+    }
+    .login-box {
+      background: rgba(255,255,255,0.92);
+      border-radius: 24px;
+      padding: clamp(30px, 8vw, 50px);
+      box-shadow: 0 20px 60px rgba(231,76,60,0.4);
+      text-align: center;
+      max-width: 90%;
+      color: #c0392b;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 20px 60px rgba(231,76,60,0.3); }
+      to   { box-shadow: 0 30px 80px rgba(231,76,60,0.5); }
+    }
+    .login-box h1 {
+      font-size: clamp(2.2em, 8vw, 3.5em);
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 4px rgba(255,105,180,0.6);
+    }
+    .login-box input {
+      width: 100%;
+      max-width: 320px;
+      padding: 14px 20px;
+      margin: 15px 0;
+      border: 2px solid #ff69b4;
+      border-radius: 30px;
+      font-size: 1.2em;
+      text-align: center;
+      outline: none;
+    }
+    .login-box button {
+      background: #ff3366;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      font-size: 1.3em;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    .login-box button:hover {
+      background: #e91e63;
+      transform: scale(1.08);
+    }
+
+    /* Game page */
+    #gamePage {
+      position: fixed;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      pointer-events: none;
+    }
+    #gamePage.visible {
+      opacity: 1;
+      pointer-events: auto;
     }
     canvas {
       border: clamp(3px, 1vw, 5px) solid #e74c3c;
-      background: #fff0f5;
-      border-radius: clamp(12px, 4vw, 20px);
-      box-shadow: 0 0 clamp(20px, 6vw, 35px) rgba(231,76,60,0.4);
+      background: rgba(255,240,245,0.85);
+      border-radius: clamp(16px, 5vw, 28px);
+      box-shadow: 0 0 clamp(30px, 8vw, 50px) rgba(231,76,60,0.45);
       display: block;
-      margin: clamp(8px, 3vw, 15px) auto;
+      margin: clamp(10px, 4vw, 20px) auto;
       max-width: 98%;
-      max-height: 82vh; /* much more space on phones */
+      max-height: 82vh;
       touch-action: none;
     }
+
     #winMessage {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.8);
       background: rgba(255,255,255,0.97);
-      padding: clamp(30px, 8vw, 50px) clamp(35px, 9vw, 60px);
-      border-radius: clamp(20px, 6vw, 32px);
-      box-shadow: 0 0 clamp(40px, 10vw, 60px) rgba(255,105,180,0.75);
-      font-size: clamp(2em, 7.5vw, 3em);
-      line-height: 1.45;
+      padding: clamp(35px, 9vw, 55px) clamp(40px, 10vw, 65px);
+      border-radius: clamp(24px, 7vw, 36px);
+      box-shadow: 0 0 clamp(50px, 12vw, 80px) rgba(255,105,180,0.85);
+      font-size: clamp(2.1em, 8vw, 3.2em);
+      line-height: 1.5;
       color: #c0392b;
       text-align: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out, visibility 0s linear 0.8s;
+      transition: opacity 0.9s ease-out, transform 0.9s ease-out;
       z-index: 100;
       max-width: 94%;
-      box-sizing: border-box;
     }
     #winMessage.show {
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, -50%) scale(1);
-      transition-delay: 0s;
     }
     #closeBtn {
       position: absolute;
-      top: clamp(8px, 2.5vw, 14px);
-      right: clamp(12px, 3.5vw, 18px);
-      font-size: clamp(38px, 10vw, 52px);
-      font-weight: bold;
+      top: clamp(10px, 3vw, 16px);
+      right: clamp(14px, 4vw, 20px);
+      font-size: clamp(42px, 11vw, 56px);
       color: #e74c3c;
       background: none;
       border: none;
       cursor: pointer;
-      line-height: 1;
-      transition: color 0.25s, transform 0.25s;
+      transition: all 0.3s;
     }
-    #closeBtn:hover {
-      color: #c0392b;
-      transform: scale(1.3);
-    }
+    #closeBtn:hover { color: #c0392b; transform: scale(1.3); }
   </style>
 </head>
 <body>
-  <h1>Password to My Heart... 💕</h1>
+
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+  <div class="login-box">
+    <h1>Open My Heart? 💗</h1>
+    <input type="password" id="passwordInput" placeholder="Enter our secret..." autocomplete="off">
+    <button id="unlockBtn">Unlock 💞</button>
+  </div>
+</div>
+
+<!-- GAME PAGE -->
+<div id="gamePage">
   <canvas id="gameCanvas"></canvas>
   <div id="winMessage">
     <button id="closeBtn">×</button>
@@ -87,200 +183,210 @@
     You already own mine forever ❤️<br>
     I love you so much, [Her Name]!<br>
     Happy Valentine's from Mondher 😘
-    <!-- Optional: <img src="images/us-photo.jpg" style="width: clamp(160px, 40vw, 240px); border-radius:15px; margin-top: clamp(15px, 4vw, 25px);"> -->
   </div>
+</div>
 
-  <script>
-    // PASSWORD PROTECTION
-    const correctPassword = "iloveyou"; // CHANGE THIS
-    let entered = prompt("What's the secret password to my heart? 💖\n(Hint: think of us!)");
+<audio id="bgMusic" loop>
+  <source src="https://www.free-stock-music.com/storage/tracks/previews/alex-productions-love-preview.mp3" type="audio/mpeg">
+  <!-- Fallback if direct link breaks – replace with your own uploaded mp3 if needed -->
+</audio>
 
-    if (entered !== correctPassword) {
-      alert("Not quite... try again! 🥺");
-      location.reload();
-    } else {
-      alert("Yes! 💕 Now be Cupid & shoot 10 hearts with taps/drags!");
+<script>
+// Floating hearts background
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart-float';
+  heart.innerHTML = '💗';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = (Math.random() * 8 + 10) + 's';
+  heart.style.animationDelay = Math.random() * 5 + 's';
+  document.getElementById('heartsBg').appendChild(heart);
+  setTimeout(() => heart.remove(), 15000);
+}
+setInterval(createHeart, 400);
+
+// Music (plays when game starts – may need user interaction on mobile)
+const music = document.getElementById('bgMusic');
+music.volume = 0.25;
+
+// Password page
+const loginPage = document.getElementById('loginPage');
+const gamePage = document.getElementById('gamePage');
+const passwordInput = document.getElementById('passwordInput');
+const unlockBtn = document.getElementById('unlockBtn');
+
+const correctPassword = "oursecretcode"; // CHANGE THIS
+
+unlockBtn.onclick = () => {
+  if (passwordInput.value === correctPassword) {
+    loginPage.classList.add('hidden');
+    setTimeout(() => {
+      loginPage.style.display = 'none';
+      gamePage.classList.add('visible');
+      music.play().catch(() => {}); // autoplay may be blocked – user can tap if needed
       startGame();
+    }, 1000);
+  } else {
+    alert("Wrong password... try again 🥺");
+  }
+};
+
+// Enter key support
+passwordInput.addEventListener('keypress', e => {
+  if (e.key === 'Enter') unlockBtn.click();
+});
+
+function startGame() {
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const winMsg = document.getElementById('winMessage');
+
+  let hasWon = false;
+
+  function resize() {
+    canvas.width = Math.min(window.innerWidth * 0.98, 800);
+    canvas.height = Math.min(window.innerHeight * 0.82, 580);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', resize);
+
+  // Images...
+  const cupidSrc     = 'cupid.png';
+  const arrowSrc     = 'arrow.png';
+  const heartSrc     = 'Red pixel heart.png';
+
+  const cupidImg = new Image(); cupidImg.src = cupidSrc;
+  const arrowImg = new Image(); arrowImg.src = arrowSrc;
+  const heartImg = new Image(); heartImg.src = heartSrc;
+
+  let score = 0;
+  const goal = 10;
+  let arrows = [];
+  let hearts = [];
+
+  const cupid = { 
+    x: canvas.width * 0.12, 
+    y: canvas.height / 2, 
+    size: Math.max(70, Math.min(canvas.width * 0.22, 110)) 
+  };
+
+  let aim = { x: canvas.width / 2, y: canvas.height / 2 };
+
+  function updateAim(e) {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.clientX || (e.touches && e.touches[0]?.clientX);
+    const clientY = e.clientY || (e.touches && e.touches[0]?.clientY);
+    aim.x = clientX - rect.left;
+    aim.y = clientY - rect.top;
+  }
+
+  function shoot(e) {
+    e.preventDefault();
+    updateAim(e);
+    const angle = Math.atan2(aim.y - cupid.y, aim.x - (cupid.x + cupid.size));
+    const speed = 12;
+    arrows.push({ x: cupid.x + cupid.size, y: cupid.y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, rotation: angle });
+  }
+
+  canvas.addEventListener('mousemove', updateAim);
+  canvas.addEventListener('mousedown', shoot);
+  canvas.addEventListener('touchmove', updateAim, { passive: false });
+  canvas.addEventListener('touchstart', shoot, { passive: false });
+
+  class Heart {
+    constructor() {
+      this.x = canvas.width + 50;
+      this.y = Math.random() * (canvas.height - 140) + 70;
+      this.size = Math.max(55, Math.min(canvas.width * 0.14, 90));
+      this.speed = 2.2 + Math.random() * 3.2;
     }
-
-    function startGame() {
-      const canvas = document.getElementById('gameCanvas');
-      const ctx = canvas.getContext('2d');
-      const winMsg = document.getElementById('winMessage');
-
-      let hasWon = false; // prevents re-showing after close
-
-      // Responsive canvas – more generous on mobile portrait
-      function resize() {
-        canvas.width = Math.min(window.innerWidth * 0.98, 800);
-        canvas.height = Math.min(window.innerHeight * 0.82, 580);
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      window.addEventListener('orientationchange', resize);
-
-      // CUSTOMIZABLE IMAGES
-      const cupidSrc     = 'cupid.png';
-      const arrowSrc     = 'arrow.png';
-      const heartSrc     = 'Red pixel heart.png';
-
-      const cupidImg = new Image();
-      cupidImg.src = cupidSrc;
-      cupidImg.onerror = () => console.error("Failed to load Cupid image:", cupidSrc);
-
-      const arrowImg = new Image();
-      arrowImg.src = arrowSrc;
-      arrowImg.onerror = () => console.error("Failed to load Arrow image:", arrowSrc);
-
-      const heartImg = new Image();
-      heartImg.src = heartSrc;
-      heartImg.onerror = () => console.error("Failed to load Heart image:", heartSrc);
-
-      let score = 0;
-      const goal = 10;
-      let arrows = [];
-      let hearts = [];
-
-      const cupid = { 
-        x: canvas.width * 0.12,  // slightly more left margin on mobile
-        y: canvas.height / 2, 
-        size: Math.max(70, Math.min(canvas.width * 0.22, 110)) 
-      };
-
-      let aim = { x: canvas.width / 2, y: canvas.height / 2 };
-
-      function updateAim(e) {
-        e.preventDefault();
-        const rect = canvas.getBoundingClientRect();
-        const clientX = e.clientX || (e.touches && e.touches[0]?.clientX);
-        const clientY = e.clientY || (e.touches && e.touches[0]?.clientY);
-        aim.x = clientX - rect.left;
-        aim.y = clientY - rect.top;
-      }
-
-      function shoot(e) {
-        e.preventDefault();
-        updateAim(e);
-        const angle = Math.atan2(aim.y - cupid.y, aim.x - (cupid.x + cupid.size));
-        const speed = 12;
-        arrows.push({
-          x: cupid.x + cupid.size,
-          y: cupid.y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          rotation: angle
-        });
-      }
-
-      canvas.addEventListener('mousemove', updateAim);
-      canvas.addEventListener('mousedown', shoot);
-      canvas.addEventListener('touchmove', updateAim, { passive: false });
-      canvas.addEventListener('touchstart', shoot, { passive: false });
-
-      class Heart {
-        constructor() {
-          this.x = canvas.width + 50;
-          this.y = Math.random() * (canvas.height - 140) + 70;
-          this.size = Math.max(55, Math.min(canvas.width * 0.14, 90));
-          this.speed = 2.2 + Math.random() * 3.2;
-        }
-        update() { this.x -= this.speed; }
-        draw() {
-          if (heartImg.complete && heartImg.naturalHeight !== 0) {
-            ctx.drawImage(heartImg, this.x - this.size/2, this.y - this.size/2, this.size, this.size);
-          } else {
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size/2, this.x + this.size, this.y + this.size/3, this.x, this.y + this.size);
-            ctx.bezierCurveTo(this.x - this.size, this.y + this.size/3, this.x - this.size/2, this.y - this.size/2, this.x, this.y);
-            ctx.fillStyle = '#ff3366';
-            ctx.fill();
-          }
-        }
-      }
-
-      setInterval(() => hearts.push(new Heart()), 1000); // faster spawn for engagement
-
-      document.getElementById('closeBtn').addEventListener('click', () => {
-        winMsg.classList.remove('show');
-      });
-
-      function loop() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Cupid
-        if (cupidImg.complete && cupidImg.naturalHeight !== 0) {
-          ctx.drawImage(cupidImg, cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
-        } else {
-          ctx.fillStyle = 'pink';
-          ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
-          ctx.fillStyle = '#ff69b4';
-          ctx.beginPath();
-          ctx.arc(cupid.x + cupid.size/2, cupid.y - cupid.size/3, cupid.size/4, 0, Math.PI*2);
-          ctx.fill();
-        }
-
-        // Bow
+    update() { this.x -= this.speed; }
+    draw() {
+      if (heartImg.complete && heartImg.naturalHeight !== 0) {
+        ctx.drawImage(heartImg, this.x - this.size/2, this.y - this.size/2, this.size, this.size);
+      } else {
         ctx.beginPath();
-        ctx.moveTo(cupid.x + cupid.size, cupid.y);
-        ctx.lineTo(aim.x, aim.y);
-        ctx.strokeStyle = 'brown';
-        ctx.lineWidth = clamp(4, canvas.width * 0.008, 7);
-        ctx.stroke();
-
-        // Arrows
-        arrows = arrows.filter(a => {
-          a.x += a.vx;
-          a.y += a.vy;
-
-          if (arrowImg.complete && arrowImg.naturalHeight !== 0) {
-            ctx.save();
-            ctx.translate(a.x, a.y);
-            ctx.rotate(a.rotation);
-            ctx.drawImage(arrowImg, -30, -15, 60, 30);
-            ctx.restore();
-          } else {
-            ctx.fillStyle = 'red';
-            ctx.fillRect(a.x - 15, a.y - 7.5, 40, 15);
-          }
-
-          return a.x < canvas.width + 120 && a.y > -60 && a.y < canvas.height + 60;
-        });
-
-        // Hearts + collisions
-        hearts = hearts.filter(h => {
-          h.update();
-          h.draw();
-
-          let hit = false;
-          arrows.forEach((a, ai) => {
-            const dx = a.x - h.x;
-            const dy = a.y - h.y;
-            if (Math.hypot(dx, dy) < h.size / 1.4) {  // slightly larger hitbox for mobile
-              score++;
-              hit = true;
-              arrows.splice(ai, 1);
-
-              if (score >= goal && !hasWon) {
-                hasWon = true;
-                winMsg.classList.add('show');
-              }
-            }
-          });
-
-          return h.x > -60 && !hit;
-        });
-
-        // Score – larger & nicer on mobile
-        ctx.fillStyle = 'black';
-        ctx.font = `bold ${Math.max(32, Math.min(canvas.width * 0.08, 48))}px cursive`;
-        ctx.fillText(`Hearts: ${score} / ${goal}`, 25, 60);
-
-        requestAnimationFrame(loop);
+        ctx.moveTo(this.x, this.y);
+        ctx.bezierCurveTo(this.x + this.size/2, this.y - this.size/2, this.x + this.size, this.y + this.size/3, this.x, this.y + this.size);
+        ctx.bezierCurveTo(this.x - this.size, this.y + this.size/3, this.x - this.size/2, this.y - this.size/2, this.x, this.y);
+        ctx.fillStyle = '#ff3366';
+        ctx.fill();
       }
-
-      loop();
     }
+  }
+
+  setInterval(() => hearts.push(new Heart()), 1000);
+
+  document.getElementById('closeBtn').addEventListener('click', () => {
+    winMsg.classList.remove('show');
+  });
+
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (cupidImg.complete && cupidImg.naturalHeight !== 0) {
+      ctx.drawImage(cupidImg, cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
+    } else {
+      ctx.fillStyle = 'pink';
+      ctx.fillRect(cupid.x, cupid.y - cupid.size/2, cupid.size, cupid.size);
+      ctx.fillStyle = '#ff69b4';
+      ctx.beginPath();
+      ctx.arc(cupid.x + cupid.size/2, cupid.y - cupid.size/3, cupid.size/4, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(cupid.x + cupid.size, cupid.y);
+    ctx.lineTo(aim.x, aim.y);
+    ctx.strokeStyle = 'brown';
+    ctx.lineWidth = clamp(4, canvas.width * 0.008, 7);
+    ctx.stroke();
+
+    arrows = arrows.filter(a => {
+      a.x += a.vx;
+      a.y += a.vy;
+      if (arrowImg.complete && arrowImg.naturalHeight !== 0) {
+        ctx.save();
+        ctx.translate(a.x, a.y);
+        ctx.rotate(a.rotation);
+        ctx.drawImage(arrowImg, -30, -15, 60, 30);
+        ctx.restore();
+      } else {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(a.x - 15, a.y - 7.5, 40, 15);
+      }
+      return a.x < canvas.width + 120 && a.y > -60 && a.y < canvas.height + 60;
+    });
+
+    hearts = hearts.filter(h => {
+      h.update();
+      h.draw();
+      let hit = false;
+      arrows.forEach((a, ai) => {
+        if (Math.hypot(a.x - h.x, a.y - h.y) < h.size / 1.4) {
+          score++;
+          hit = true;
+          arrows.splice(ai, 1);
+          if (score >= goal && !hasWon) {
+            hasWon = true;
+            winMsg.classList.add('show');
+          }
+        }
+      });
+      return h.x > -60 && !hit;
+    });
+
+    ctx.fillStyle = 'black';
+    ctx.font = `bold ${Math.max(32, Math.min(canvas.width * 0.08, 48))}px cursive`;
+    ctx.fillText(`Hearts: ${score} / ${goal}`, 25, 60);
+
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+}
   </script>
 </body>
 </html>
