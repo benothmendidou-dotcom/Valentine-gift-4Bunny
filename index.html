@@ -15,7 +15,6 @@
       position: relative;
     }
 
-    /* Cute floating hearts */
     .hearts-bg {
       position: fixed;
       inset: 0;
@@ -34,7 +33,7 @@
       100% { transform: translateY(-40vh) rotate(1080deg) scale(1.2); opacity: 0; }
     }
 
-    /* Login page */
+    /* Password page */
     #loginPage {
       position: fixed;
       inset: 0;
@@ -44,7 +43,7 @@
       background: rgba(255,245,248,0.4);
       backdrop-filter: blur(10px);
       z-index: 20;
-      transition: opacity 1.3s ease, transform 1.3s ease;
+      transition: opacity 1.4s ease, transform 1.4s ease;
     }
     #loginPage.hidden {
       opacity: 0;
@@ -65,11 +64,7 @@
       0%,100% { transform: scale(1); }
       50%     { transform: scale(1.03); }
     }
-    .login-box h1 {
-      font-size: clamp(2.8em, 10vw, 4.5em);
-      margin-bottom: 30px;
-      text-shadow: 2px 2px 8px rgba(216,27,96,0.3);
-    }
+    .login-box h1 { font-size: clamp(2.8em, 10vw, 4.5em); margin-bottom: 30px; }
     .login-box input {
       width: 100%;
       max-width: 360px;
@@ -80,7 +75,6 @@
       font-size: 1.5em;
       text-align: center;
       outline: none;
-      transition: border 0.3s;
     }
     .login-box input:focus { border-color: #f50057; }
     .login-box button {
@@ -99,11 +93,13 @@
       box-shadow: 0 15px 40px rgba(245,0,87,0.6);
     }
 
-    /* Game + Letter container */
+    /* Main content area */
     #mainContent {
       opacity: 0;
       transition: opacity 1.6s ease;
       pointer-events: none;
+      position: relative;
+      height: 100vh;
     }
     #mainContent.visible { opacity: 1; pointer-events: auto; }
 
@@ -119,11 +115,11 @@
       touch-action: none;
     }
 
-    /* Win screen */
+    /* Win screen after 10 */
     #winScreen {
       position: fixed;
       inset: 0;
-      background: rgba(255,245,248,0.85);
+      background: rgba(255,245,248,0.88);
       backdrop-filter: blur(12px);
       display: none;
       flex-direction: column;
@@ -136,7 +132,6 @@
     #winScreen h2 {
       font-size: clamp(3em, 12vw, 5em);
       margin-bottom: 30px;
-      text-shadow: 2px 2px 10px rgba(216,27,96,0.4);
     }
     #openLetterBtn {
       background: #ff4081;
@@ -155,17 +150,24 @@
       box-shadow: 0 18px 50px rgba(255,64,129,0.7);
     }
 
-    /* Letter screen */
+    /* Letter screen with smooth animation */
     #letterScreen {
       position: fixed;
       inset: 0;
-      background: rgba(255,245,248,0.9);
+      background: rgba(255,245,248,0.92);
       backdrop-filter: blur(12px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 25;
       padding: clamp(20px, 6vw, 40px);
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    #letterScreen.visible {
+      opacity: 1;
+      transform: scale(1);
     }
     #letterContent {
       background: #fff;
@@ -178,15 +180,8 @@
       color: #c2185b;
       box-shadow: 0 30px 90px rgba(194,24,91,0.45);
     }
-    #letterContent h2 {
-      font-size: clamp(2.8em, 10vw, 4.2em);
-      margin-bottom: 30px;
-    }
-    #letterContent p {
-      font-size: clamp(1.4em, 5.5vw, 2em);
-      line-height: 1.7;
-      margin: 20px 0;
-    }
+    #letterContent h2 { font-size: clamp(2.8em, 10vw, 4.2em); margin-bottom: 30px; }
+    #letterContent p { font-size: clamp(1.4em, 5.5vw, 2em); line-height: 1.7; margin: 20px 0; }
     #closeLetter {
       margin-top: 40px;
       background: #ec407a;
@@ -199,6 +194,30 @@
       transition: all 0.3s;
     }
     #closeLetter:hover { transform: scale(1.1); }
+
+    /* Final message after 100 */
+    #finalMessage {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,245,248,0.92);
+      backdrop-filter: blur(12px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      text-align: center;
+      color: #c2185b;
+    }
+    #finalMessage h2 {
+      font-size: clamp(3.2em, 13vw, 5.5em);
+      margin-bottom: 35px;
+    }
+    #finalMessage p {
+      font-size: clamp(1.6em, 6vw, 2.4em);
+      max-width: 90%;
+      line-height: 1.6;
+    }
 
     /* Mute button */
     #musicToggle {
@@ -232,17 +251,17 @@
   </div>
 </div>
 
-<!-- Main content (game + win + letter) -->
+<!-- Main content -->
 <div id="mainContent">
   <canvas id="gameCanvas"></canvas>
 
-  <!-- Win screen -->
+  <!-- Win screen after 10 -->
   <div id="winScreen">
     <h2>A Letter for You 💌</h2>
     <button id="openLetterBtn">Open Letter</button>
   </div>
 
-  <!-- Letter screen -->
+  <!-- Letter screen (smooth fade + scale) -->
   <div id="letterScreen">
     <div id="letterContent">
       <h2>My Sweetest [Her Name],</h2>
@@ -254,18 +273,25 @@
     </div>
   </div>
 
+  <!-- Final message after 100 -->
+  <div id="finalMessage">
+    <h2>You Won My Heart Forever! 🎉</h2>
+    <p>[PUT YOUR FINAL SPECIAL MESSAGE HERE]</p>
+  </div>
+
   <!-- Mute button -->
   <button id="musicToggle">🔊</button>
 </div>
 
-<!-- Cute quiet background music -->
+<!-- Soft romantic music (plays on both password and game pages) -->
 <audio id="bgMusic" loop>
+  <!-- Gentle, dreamy piano – softer romantic track from Chosic (free/no copyright) -->
   <source src="Jorge Rivera-Herrans, Anna Lea - Would You Fall In Love With Me Again (Lyrics).mp3" type="audio/mpeg">
   Your browser does not support audio.
 </audio>
 
 <script>
-// Floating hearts
+// Floating hearts animation
 function createHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart-float';
@@ -278,9 +304,9 @@ function createHeart() {
 }
 setInterval(createHeart, 600);
 
-// Music (very quiet)
+// Music (very quiet, plays from password page)
 const music = document.getElementById('bgMusic');
-music.volume = 0.12; // very soft
+music.volume = 0.12; // super soft
 const toggleBtn = document.getElementById('musicToggle');
 let isMuted = true;
 toggleBtn.textContent = '🔇';
@@ -296,7 +322,7 @@ toggleBtn.onclick = () => {
   }
 };
 
-// Password
+// Password logic
 const loginPage = document.getElementById('loginPage');
 const mainContent = document.getElementById('mainContent');
 const passwordInput = document.getElementById('passwordInput');
@@ -310,9 +336,9 @@ unlockBtn.onclick = () => {
     setTimeout(() => {
       loginPage.style.display = 'none';
       mainContent.classList.add('visible');
-      music.play().catch(() => {});
+      music.play().catch(() => console.log("Autoplay blocked – tap screen if needed"));
       startGame();
-    }, 1300);
+    }, 1400);
   } else {
     alert("Wrong password... try again 🥺");
   }
@@ -322,7 +348,7 @@ passwordInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') unlockBtn.click();
 });
 
-// Game
+// Game logic
 function startGame() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
@@ -330,8 +356,11 @@ function startGame() {
   const openLetterBtn = document.getElementById('openLetterBtn');
   const letterScreen = document.getElementById('letterScreen');
   const closeLetter = document.getElementById('closeLetter');
+  const finalMessage = document.getElementById('finalMessage');
 
-  let hasWon = false;
+  let hasWonFirst = false;
+  let hasWonSecond = false;
+  let targetScore = 10; // first goal
 
   function resize() {
     canvas.width = Math.min(window.innerWidth * 0.98, 800);
@@ -346,7 +375,6 @@ function startGame() {
   const heartImg = new Image(); heartImg.src = 'Red pixel heart.png';
 
   let score = 0;
-  const goal = 10;
   let arrows = [];
   let hearts = [];
 
@@ -399,11 +427,14 @@ function startGame() {
   openLetterBtn.onclick = () => {
     winScreen.style.display = 'none';
     letterScreen.style.display = 'flex';
+    letterScreen.classList.add('visible'); // trigger smooth animation
   };
 
   closeLetter.onclick = () => {
     letterScreen.style.display = 'none';
-    // You can keep playing or leave it here
+    letterScreen.classList.remove('visible');
+    canvas.style.display = 'block';
+    targetScore = 100; // now aim for 100
   };
 
   function loop() {
@@ -461,25 +492,27 @@ function startGame() {
     }
     hearts = newHearts;
 
-    // Show win screen when 10 reached
-    if (score >= goal && !hasWon) {
-      hasWon = true;
-      canvas.style.display = 'none'; // hide game canvas
+    // Win checks
+    if (score >= targetScore && !hasWonFirst) {
+      hasWonFirst = true;
+      canvas.style.display = 'none';
       winScreen.style.display = 'flex';
+    }
+
+    if (score >= 100 && hasWonFirst && !hasWonSecond) {
+      hasWonSecond = true;
+      canvas.style.display = 'none';
+      winScreen.style.display = 'none';
+      finalMessage.style.display = 'flex';
     }
 
     ctx.fillStyle = '#c2185b';
     ctx.font = `bold ${Math.max(34, canvas.width * 0.085)}px cursive`;
-    ctx.fillText(`Hearts: ${score} / ${goal}`, 30, 70);
+    ctx.fillText(`Hearts: ${score} / ${targetScore}`, 30, 70);
 
     requestAnimationFrame(loop);
   }
 
-  loop();
-}
-  </script>
-</body>
-</html>
   loop();
 }
   </script>
