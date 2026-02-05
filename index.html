@@ -59,10 +59,21 @@
       max-width: 92%;
       color: #c2185b;
       animation: cutePulse 5s ease-in-out infinite;
+      transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
     }
     @keyframes cutePulse {
       0%,100% { transform: scale(1); }
       50%     { transform: scale(1.03); }
+    }
+    .login-box.wrong {
+      background: rgba(255,235,235,0.96) !important;
+      border: 4px solid #ef5350 !important;
+      box-shadow: 0 30px 80px rgba(239,83,80,0.4) !important;
+    }
+    .login-box.correct {
+      background: rgba(232,245,233,0.96) !important;
+      border: 4px solid #66bb6a !important;
+      box-shadow: 0 30px 80px rgba(102,187,106,0.4) !important;
     }
     .login-box h1 { font-size: clamp(2.8em, 10vw, 4.5em); margin-bottom: 30px; }
     .login-box input {
@@ -75,6 +86,7 @@
       font-size: 1.5em;
       text-align: center;
       outline: none;
+      transition: border-color 0.3s;
     }
     .login-box input:focus { border-color: #f50057; }
     .login-box button {
@@ -93,7 +105,7 @@
       box-shadow: 0 15px 40px rgba(245,0,87,0.6);
     }
 
-    /* Main content area */
+    /* Main content */
     #mainContent {
       opacity: 0;
       transition: opacity 1.6s ease;
@@ -129,10 +141,7 @@
       text-align: center;
       color: #c2185b;
     }
-    #winScreen h2 {
-      font-size: clamp(3em, 12vw, 5em);
-      margin-bottom: 30px;
-    }
+    #winScreen h2 { font-size: clamp(3em, 12vw, 5em); margin-bottom: 30px; }
     #openLetterBtn {
       background: #ff4081;
       color: white;
@@ -145,79 +154,84 @@
       box-shadow: 0 12px 35px rgba(255,64,129,0.5);
       transition: all 0.4s;
     }
-    #openLetterBtn:hover {
-      transform: scale(1.12) translateY(-8px);
-      box-shadow: 0 18px 50px rgba(255,64,129,0.7);
-    }
+    #openLetterBtn:hover { transform: scale(1.12) translateY(-8px); box-shadow: 0 18px 50px rgba(255,64,129,0.7); }
 
-    /* Letter screen with smooth animation */
+    /* Letter screen - smooth & clean pop */
     #letterScreen {
       position: fixed;
       inset: 0;
-      background: rgba(255,245,248,0.92);
-      backdrop-filter: blur(12px);
+      background: rgba(255,245,248,0.94);
+      backdrop-filter: blur(14px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 25;
       padding: clamp(20px, 6vw, 40px);
       opacity: 0;
-      transform: scale(0.85);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      transform: translateY(40px) scale(0.9);
+      transition: opacity 1s ease-out, transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     #letterScreen.visible {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0) scale(1);
     }
     #letterContent {
-      background: #fff;
-      border-radius: 36px;
-      padding: clamp(40px, 10vw, 70px);
+      background: #ffffff;
+      border-radius: 40px;
+      padding: clamp(50px, 12vw, 80px);
       max-width: 94%;
-      max-height: 90vh;
+      max-height: 88vh;
       overflow-y: auto;
       text-align: center;
       color: #c2185b;
-      box-shadow: 0 30px 90px rgba(194,24,91,0.45);
+      box-shadow: 0 35px 100px rgba(194,24,91,0.3);
+      border: 2px solid rgba(255,105,180,0.3);
     }
-    #letterContent h2 { font-size: clamp(2.8em, 10vw, 4.2em); margin-bottom: 30px; }
-    #letterContent p { font-size: clamp(1.4em, 5.5vw, 2em); line-height: 1.7; margin: 20px 0; }
+    #letterContent h2 { font-size: clamp(2.8em, 10vw, 4.2em); margin-bottom: 35px; }
+    #letterContent p { font-size: clamp(1.4em, 5.5vw, 2em); line-height: 1.8; margin: 25px 0; }
     #closeLetter {
-      margin-top: 40px;
+      margin-top: 45px;
       background: #ec407a;
       color: white;
       border: none;
-      padding: 16px 50px;
-      font-size: 1.5em;
+      padding: 18px 60px;
+      font-size: 1.6em;
       border-radius: 999px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.35s;
     }
-    #closeLetter:hover { transform: scale(1.1); }
+    #closeLetter:hover { transform: scale(1.12); box-shadow: 0 15px 40px rgba(236,64,122,0.5); }
 
-    /* Final message after 100 */
+    /* Final message after 100 - extra love */
     #finalMessage {
       position: fixed;
       inset: 0;
-      background: rgba(255,245,248,0.92);
-      backdrop-filter: blur(12px);
+      background: linear-gradient(135deg, #fff0f5, #fce4ec);
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 30;
       text-align: center;
-      color: #c2185b;
+      color: #d81b60;
+      animation: pulseLove 3s ease-in-out infinite;
+    }
+    @keyframes pulseLove {
+      0%,100% { opacity: 1; }
+      50%     { opacity: 0.92; }
     }
     #finalMessage h2 {
-      font-size: clamp(3.2em, 13vw, 5.5em);
-      margin-bottom: 35px;
+      font-size: clamp(3.5em, 14vw, 6em);
+      margin-bottom: 40px;
+      text-shadow: 3px 3px 12px rgba(216,27,96,0.4);
     }
     #finalMessage p {
-      font-size: clamp(1.6em, 6vw, 2.4em);
-      max-width: 90%;
+      font-size: clamp(1.8em, 7vw, 2.8em);
+      max-width: 88%;
       line-height: 1.6;
+      margin: 20px 0;
     }
+    #finalMessage .heart-big { font-size: clamp(80px, 20vw, 140px); margin: 20px 0; }
 
     /* Mute button */
     #musicToggle {
@@ -244,7 +258,7 @@
 
 <!-- Password screen -->
 <div id="loginPage">
-  <div class="login-box">
+  <div class="login-box" id="loginBox">
     <h1>Unlock My Heart? 💗</h1>
     <input type="password" id="passwordInput" placeholder="Our secret..." autocomplete="off">
     <button id="unlockBtn">Open 💞</button>
@@ -261,7 +275,7 @@
     <button id="openLetterBtn">Open Letter</button>
   </div>
 
-  <!-- Letter screen (smooth fade + scale) -->
+  <!-- Letter screen -->
   <div id="letterScreen">
     <div id="letterContent">
       <h2>My Sweetest [Her Name],</h2>
@@ -275,23 +289,23 @@
 
   <!-- Final message after 100 -->
   <div id="finalMessage">
-    <h2>You Won My Heart Forever! 🎉</h2>
+    <div class="heart-big">💖💖💖</div>
+    <h2>You Won My Heart Forever!</h2>
     <p>[PUT YOUR FINAL SPECIAL MESSAGE HERE]</p>
+    <div class="heart-big">💕💕💕</div>
   </div>
 
   <!-- Mute button -->
   <button id="musicToggle">🔊</button>
 </div>
 
-<!-- Soft romantic music (plays on both password and game pages) -->
+<!-- Music -->
 <audio id="bgMusic" loop>
-  <!-- Gentle, dreamy piano – softer romantic track from Chosic (free/no copyright) -->
   <source src="Jorge Rivera-Herrans, Anna Lea - Would You Fall In Love With Me Again (Lyrics).mp3" type="audio/mpeg">
-  Your browser does not support audio.
 </audio>
 
 <script>
-// Floating hearts animation
+// Floating hearts
 function createHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart-float';
@@ -304,9 +318,9 @@ function createHeart() {
 }
 setInterval(createHeart, 600);
 
-// Music (very quiet, plays from password page)
+// Music
 const music = document.getElementById('bgMusic');
-music.volume = 0.12; // super soft
+music.volume = 0.12;
 const toggleBtn = document.getElementById('musicToggle');
 let isMuted = true;
 toggleBtn.textContent = '🔇';
@@ -322,25 +336,37 @@ toggleBtn.onclick = () => {
   }
 };
 
-// Password logic
+// Password with flash feedback
 const loginPage = document.getElementById('loginPage');
-const mainContent = document.getElementById('mainContent');
+const loginBox = document.getElementById('loginBox');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
 const correctPassword = "oursecretcode"; // ← CHANGE THIS !!
 
 unlockBtn.onclick = () => {
-  if (passwordInput.value.trim() === correctPassword) {
-    loginPage.classList.add('hidden');
+  const entered = passwordInput.value.trim();
+
+  if (entered === correctPassword) {
+    // Green flash on correct
+    loginBox.classList.add('correct');
     setTimeout(() => {
-      loginPage.style.display = 'none';
-      mainContent.classList.add('visible');
-      music.play().catch(() => console.log("Autoplay blocked – tap screen if needed"));
-      startGame();
-    }, 1400);
+      loginBox.classList.remove('correct');
+      loginPage.classList.add('hidden');
+      setTimeout(() => {
+        loginPage.style.display = 'none';
+        mainContent.classList.add('visible');
+        music.play().catch(() => {});
+        startGame();
+      }, 1400);
+    }, 600);
   } else {
+    // Red flash on wrong
+    loginBox.classList.add('wrong');
+    setTimeout(() => loginBox.classList.remove('wrong'), 800);
     alert("Wrong password... try again 🥺");
+    passwordInput.value = ''; // clear input
+    passwordInput.focus();
   }
 };
 
@@ -348,7 +374,7 @@ passwordInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') unlockBtn.click();
 });
 
-// Game logic
+// Game logic (unchanged from last working version)
 function startGame() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
@@ -360,7 +386,7 @@ function startGame() {
 
   let hasWonFirst = false;
   let hasWonSecond = false;
-  let targetScore = 10; // first goal
+  let targetScore = 10;
 
   function resize() {
     canvas.width = Math.min(window.innerWidth * 0.98, 800);
@@ -427,14 +453,16 @@ function startGame() {
   openLetterBtn.onclick = () => {
     winScreen.style.display = 'none';
     letterScreen.style.display = 'flex';
-    letterScreen.classList.add('visible'); // trigger smooth animation
+    setTimeout(() => letterScreen.classList.add('visible'), 50);
   };
 
   closeLetter.onclick = () => {
-    letterScreen.style.display = 'none';
     letterScreen.classList.remove('visible');
-    canvas.style.display = 'block';
-    targetScore = 100; // now aim for 100
+    setTimeout(() => {
+      letterScreen.style.display = 'none';
+      canvas.style.display = 'block';
+      targetScore = 100;
+    }, 900);
   };
 
   function loop() {
@@ -492,7 +520,6 @@ function startGame() {
     }
     hearts = newHearts;
 
-    // Win checks
     if (score >= targetScore && !hasWonFirst) {
       hasWonFirst = true;
       canvas.style.display = 'none';
@@ -513,6 +540,11 @@ function startGame() {
     requestAnimationFrame(loop);
   }
 
+  loop();
+}
+  </script>
+</body>
+</html>
   loop();
 }
   </script>
