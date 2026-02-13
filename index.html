@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>For My Sweetheart 💕</title>
+  <title>For My Sweetheart!! 💕</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Comic Sans MS', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       color: #fff;
       height: 100vh;
       overflow: hidden;
@@ -79,10 +79,13 @@
     .login-box .hint-container {
       width: 100%;
       max-width: 360px;
-      margin: 10px auto 20px;
-      overflow: hidden;
+      margin: 15px auto 25px;
+      overflow-x: auto;
       white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .login-box .hint-container::-webkit-scrollbar { display: none; }
     .login-box input {
       width: 100%;
       max-width: 360px;
@@ -134,12 +137,12 @@
       touch-action: none;
     }
 
-    /* Score text - more catchy on mobile */
+    /* Score text - bigger & bolder on mobile */
     .score-text {
       fill: #c2185b;
       font-weight: 900;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.35);
+      text-shadow: 3px 3px 8px rgba(0,0,0,0.4);
     }
 
     /* Win screen after 10 */
@@ -171,7 +174,7 @@
     }
     #openLetterBtn:hover { transform: scale(1.12) translateY(-8px); box-shadow: 0 18px 50px rgba(255,64,129,0.7); }
 
-    /* Letter screen - smoother pop */
+    /* Letter screen */
     #letterScreen {
       position: fixed;
       inset: 0;
@@ -217,19 +220,20 @@
     }
     #closeLetter:hover { transform: scale(1.12); box-shadow: 0 18px 45px rgba(236,64,122,0.5); }
 
-    /* Final message after 100 - styled with love */
+    /* Final message after 100 - scrollable & styled */
     #finalMessage {
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, #fff0f5, #fce4ec, #f8bbd0);
+      background: linear-gradient(135deg, #fff0f5, #fce4ec);
       display: none;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       z-index: 30;
       text-align: center;
       color: #d81b60;
       padding: clamp(30px, 8vw, 60px);
+      overflow-y: auto;
       animation: pulseLove 4s ease-in-out infinite;
     }
     @keyframes pulseLove {
@@ -238,14 +242,14 @@
     }
     #finalMessage h2 {
       font-size: clamp(3.5em, 14vw, 6em);
-      margin-bottom: 40px;
+      margin: 40px 0 30px;
       text-shadow: 4px 4px 14px rgba(216,27,96,0.35);
     }
     #finalMessage p {
       font-size: clamp(1.5em, 6vw, 2.3em);
+      line-height: 1.75;
       max-width: 90%;
-      line-height: 1.7;
-      margin: 25px 0;
+      margin: 25px auto;
       font-weight: 600;
     }
     #finalMessage .heart-big {
@@ -286,7 +290,7 @@
   <div class="login-box" id="loginBox">
     <h1>Unlock My Heart? 💗</h1>
     <div class="hint-container">
-      <input type="password" id="passwordInput" placeholder="I love + person i love the most!!" autocomplete="off">
+      <input type="password" id="passwordInput" placeholder="I love + person i love the most" autocomplete="off">
     </div>
     <button id="unlockBtn">Open 💞</button>
   </div>
@@ -308,18 +312,18 @@
       <h2>My Dearest Alex💝,</h2>
       <p>HAPPY VALENTINEEEE!! I Hope you like this little website I made for you here..,</p>
       <p>I really want to say that I love you from the bottom of my heart, I love every single little and big thing about you, No matter what you do or what you did, I'll ALWAYS keep loving you for who YOU are..</p>
-      <p>Thank you for being my valentine, My Love! 💓</p>
+      <p>Thank you for being my valentine, My Love! 💕 Will you be my Valentine today... and always? 💕</p>
       <p>Forever yours,<br>Mondher 🥰</p>
       <button id="closeLetter">Close Letter</button>
     </div>
   </div>
 
-  <!-- Final message after 100 -->
+  <!-- Final message after 100 - scrollable -->
   <div id="finalMessage">
-    <div class="heart-big">🌟⭐🌟</div>
-    <h2>You Won My Heart Forever! These are words i wrote about you from heart..</h2>
+    <div class="heart-big">✨✨✨</div>
+    <h2>You Won My Heart Forever! Read this message i wrote deep down my heart..[LONG]</h2>
     <p>You're gorgeous but thats honestly thats the least interesting thing about you.. yeah you're beautiful, anyone with eyes can see that.. You walk into a room , people notice without even trying . Like your presence affects the whole atmosphere, like the energy shifts just because you showed up, but the thing is beauty is the easiest thing to see. It takes no effort to point out someone's face. What i see in you, it takes attention. It takes knowing you and thats the part which makes you unforgettable.I notice the way you'rr talking change when you talk about something you really care about,the focus , the passion , the way your whole voice lifts its like watching a flame catch even when your trying to hide it.. Maybe you dont realise it but thst passion thats one of the most beautiful things about you. I notice your laugh not the polite one you use when your trying to be quiet, but the real one. the one that takes over your whole body , the one you try to cover because your scared its too loud,too much .But that laugh its the kind thst makes people laugh just hearing it. It fills the room in a way nothing else does and then there are the moments nobody else sees, the way you fall silent when your hurting, the way you try to hold yourself together because you dont want to bother anyone with your problems and carry your pain like its something you owe the world an apology for. Like you have to be strong all the time and somehow even in your quietist moments, you still show up for people with your full heart. That's strength.., thats rare and kinda beauty you cant put makeup on, cant fake, cant recreate .But the way you care.. But the way you care that leaves marks on the people lucky enough to know you ,your beauty might turn heads but your soul , the way you love.., the way you give.., the way you dream.., that's why people stay , thats what makes you unforgettable.. people think they know you because they see your face but if they'd paid attention.. really paid attention .They'd realise your looks are just the cover not the story.. you're gorgeous yeah but honestly thats the least extroadinary thing about you.. 💜</p>
-    <div class="heart-big">💘💘💘</div>
+    <div class="heart-big">💕💕💕</div>
   </div>
 
   <!-- Mute button -->
@@ -369,7 +373,7 @@ const loginBox = document.getElementById('loginBox');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
-const correctPassword = "I love alex"; 
+const correctPassword = "I love alex";
 
 unlockBtn.onclick = () => {
   const entered = passwordInput.value.trim();
