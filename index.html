@@ -286,7 +286,7 @@
   <div class="login-box" id="loginBox">
     <h1>Unlock My Heart? 💗</h1>
     <div class="hint-container">
-      <input type="password" id="passwordInput" placeholder="Our little secret... (try scrolling if you can't see all) ........................................" autocomplete="off">
+      <input type="password" id="passwordInput" placeholder="I love + person i love the most!!" autocomplete="off">
     </div>
     <button id="unlockBtn">Open 💞</button>
   </div>
@@ -329,7 +329,6 @@
 <!-- Music -->
 <audio id="bgMusic" loop>
   <source src="Jorge Rivera-Herrans, Anna Lea - Would You Fall In Love With Me Again (Lyrics).mp3" type="audio/mpeg">
-  Your browser does not support audio.
 </audio>
 
 <script>
@@ -370,7 +369,7 @@ const loginBox = document.getElementById('loginBox');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
-const correctPassword = "oursecretcode"; // ← CHANGE THIS !!
+const correctPassword = "I love alex"; 
 
 unlockBtn.onclick = () => {
   const entered = passwordInput.value.trim();
@@ -422,9 +421,9 @@ function startGame() {
   window.addEventListener('resize', resize);
   window.addEventListener('orientationchange', resize);
 
-  const cupidImg = new Image(); cupidImg.src = 'images/cupid.png';
-  const arrowImg = new Image(); arrowImg.src = 'images/heart-arrow.png';
-  const heartImg = new Image(); heartImg.src = 'images/target-heart.png';
+  const cupidImg = new Image(); cupidImg.src = 'cupid.png';
+  const arrowImg = new Image(); arrowImg.src = 'arrow.png';
+  const heartImg = new Image(); heartImg.src = 'Red pixel heart.png';
 
   let score = 0;
   let arrows = [];
