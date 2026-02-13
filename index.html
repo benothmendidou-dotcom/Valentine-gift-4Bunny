@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>For My Sweetheart!! 💘</title>
+  <title>For My Sweetheart 💕</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Comic Sans MS', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #fff;
       height: 100vh;
       overflow: hidden;
@@ -68,19 +68,26 @@
     .login-box.wrong {
       background: rgba(255,235,235,0.96) !important;
       border: 4px solid #ef5350 !important;
-      box-shadow: 0 30px 80px rgba(239,83,80,0.4) !important;
+      box-shadow: 0 30px 80px rgba(239,83,80,0.45) !important;
     }
     .login-box.correct {
       background: rgba(232,245,233,0.96) !important;
       border: 4px solid #66bb6a !important;
-      box-shadow: 0 30px 80px rgba(102,187,106,0.4) !important;
+      box-shadow: 0 30px 80px rgba(102,187,106,0.45) !important;
     }
     .login-box h1 { font-size: clamp(2.8em, 10vw, 4.5em); margin-bottom: 30px; }
+    .login-box .hint-container {
+      width: 100%;
+      max-width: 360px;
+      margin: 10px auto 20px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
     .login-box input {
       width: 100%;
       max-width: 360px;
       padding: 18px 26px;
-      margin: 25px 0;
+      margin: 15px 0 25px;
       border: 4px solid #ff80ab;
       border-radius: 999px;
       font-size: 1.5em;
@@ -127,6 +134,14 @@
       touch-action: none;
     }
 
+    /* Score text - more catchy on mobile */
+    .score-text {
+      fill: #c2185b;
+      font-weight: 900;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.35);
+    }
+
     /* Win screen after 10 */
     #winScreen {
       position: fixed;
@@ -156,7 +171,7 @@
     }
     #openLetterBtn:hover { transform: scale(1.12) translateY(-8px); box-shadow: 0 18px 50px rgba(255,64,129,0.7); }
 
-    /* Letter screen - smooth & clean pop */
+    /* Letter screen - smoother pop */
     #letterScreen {
       position: fixed;
       inset: 0;
@@ -168,8 +183,8 @@
       z-index: 25;
       padding: clamp(20px, 6vw, 40px);
       opacity: 0;
-      transform: translateY(40px) scale(0.9);
-      transition: opacity 1s ease-out, transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(60px) scale(0.88);
+      transition: opacity 1.1s ease-out, transform 1.1s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     #letterScreen.visible {
       opacity: 1;
@@ -177,36 +192,36 @@
     }
     #letterContent {
       background: #ffffff;
-      border-radius: 40px;
-      padding: clamp(50px, 12vw, 80px);
+      border-radius: 44px;
+      padding: clamp(55px, 13vw, 90px);
       max-width: 94%;
       max-height: 88vh;
       overflow-y: auto;
       text-align: center;
       color: #c2185b;
-      box-shadow: 0 35px 100px rgba(194,24,91,0.3);
-      border: 2px solid rgba(255,105,180,0.3);
+      box-shadow: 0 40px 110px rgba(194,24,91,0.28);
+      border: 3px solid rgba(255,105,180,0.25);
     }
-    #letterContent h2 { font-size: clamp(2.8em, 10vw, 4.2em); margin-bottom: 35px; }
-    #letterContent p { font-size: clamp(1.4em, 5.5vw, 2em); line-height: 1.8; margin: 25px 0; }
+    #letterContent h2 { font-size: clamp(2.9em, 11vw, 4.5em); margin-bottom: 40px; }
+    #letterContent p { font-size: clamp(1.45em, 5.8vw, 2.1em); line-height: 1.85; margin: 28px 0; }
     #closeLetter {
-      margin-top: 45px;
+      margin-top: 50px;
       background: #ec407a;
       color: white;
       border: none;
-      padding: 18px 60px;
-      font-size: 1.6em;
+      padding: 20px 70px;
+      font-size: 1.7em;
       border-radius: 999px;
       cursor: pointer;
       transition: all 0.35s;
     }
-    #closeLetter:hover { transform: scale(1.12); box-shadow: 0 15px 40px rgba(236,64,122,0.5); }
+    #closeLetter:hover { transform: scale(1.12); box-shadow: 0 18px 45px rgba(236,64,122,0.5); }
 
-    /* Final message after 100 - extra love */
+    /* Final message after 100 - styled with love */
     #finalMessage {
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, #fff0f5, #fce4ec);
+      background: linear-gradient(135deg, #fff0f5, #fce4ec, #f8bbd0);
       display: none;
       flex-direction: column;
       align-items: center;
@@ -214,24 +229,34 @@
       z-index: 30;
       text-align: center;
       color: #d81b60;
-      animation: pulseLove 3s ease-in-out infinite;
+      padding: clamp(30px, 8vw, 60px);
+      animation: pulseLove 4s ease-in-out infinite;
     }
     @keyframes pulseLove {
-      0%,100% { opacity: 1; }
-      50%     { opacity: 0.92; }
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%     { opacity: 0.96; transform: scale(1.015); }
     }
     #finalMessage h2 {
       font-size: clamp(3.5em, 14vw, 6em);
       margin-bottom: 40px;
-      text-shadow: 3px 3px 12px rgba(216,27,96,0.4);
+      text-shadow: 4px 4px 14px rgba(216,27,96,0.35);
     }
     #finalMessage p {
-      font-size: clamp(1.8em, 7vw, 2.8em);
-      max-width: 88%;
-      line-height: 1.6;
-      margin: 20px 0;
+      font-size: clamp(1.5em, 6vw, 2.3em);
+      max-width: 90%;
+      line-height: 1.7;
+      margin: 25px 0;
+      font-weight: 600;
     }
-    #finalMessage .heart-big { font-size: clamp(80px, 20vw, 140px); margin: 20px 0; }
+    #finalMessage .heart-big {
+      font-size: clamp(90px, 22vw, 160px);
+      margin: 30px 0;
+      animation: heartBeat 2s infinite;
+    }
+    @keyframes heartBeat {
+      0%,100% { transform: scale(1); }
+      50%     { transform: scale(1.15); }
+    }
 
     /* Mute button */
     #musicToggle {
@@ -259,8 +284,10 @@
 <!-- Password screen -->
 <div id="loginPage">
   <div class="login-box" id="loginBox">
-    <h1>Unlock My Heart! 💗</h1>
-    <input type="password" id="passwordInput" placeholder="HINT: I love + The person i love the most in the world!!" autocomplete="off">
+    <h1>Unlock My Heart? 💗</h1>
+    <div class="hint-container">
+      <input type="password" id="passwordInput" placeholder="Our little secret... (try scrolling if you can't see all) ........................................" autocomplete="off">
+    </div>
     <button id="unlockBtn">Open 💞</button>
   </div>
 </div>
@@ -271,8 +298,8 @@
 
   <!-- Win screen after 10 -->
   <div id="winScreen">
-    <h2>A Letter for You! 💌</h2>
-    <button id="openLetterBtn">!Open Letter!</button>
+    <h2>A Letter for You 💌</h2>
+    <button id="openLetterBtn">Open Letter</button>
   </div>
 
   <!-- Letter screen -->
@@ -281,18 +308,18 @@
       <h2>My Dearest Alex💝,</h2>
       <p>HAPPY VALENTINEEEE!! I Hope you like this little website I made for you here..,</p>
       <p>I really want to say that I love you from the bottom of my heart, I love every single little and big thing about you, No matter what you do or what you did, I'll ALWAYS keep loving you for who YOU are..</p>
-      <p>Thank you for being my valentine, My Love :))) 💕</p>
-      <p>Forever yours,<br>Mondher! 🥰</p>
-      <button id="closeLetter">!Close Letter!</button>
+      <p>Thank you for being my valentine, My Love! 💓</p>
+      <p>Forever yours,<br>Mondher 🥰</p>
+      <button id="closeLetter">Close Letter</button>
     </div>
   </div>
 
   <!-- Final message after 100 -->
   <div id="finalMessage">
-    <div class="heart-big">💖💖💖</div>
-    <h2>You Won My Heart Forever!!</h2>
-    <p>YOU ACTUALLY DID HIT 100!!? God, I love it when you're patient, since you're here, I want to tell you that I will be happy to grow together my bunny.. This isn't the end of the gifts come back to me for more!(CONDITION:STARTS WITH A MAKEOUT >:DD), i hope you like this!! MMMMMMMWAH~!!</p>
-    <div class="heart-big">💖💖💖</div>
+    <div class="heart-big">🌟⭐🌟</div>
+    <h2>You Won My Heart Forever! These are words i wrote about you from heart..</h2>
+    <p>You're gorgeous but thats honestly thats the least interesting thing about you.. yeah you're beautiful, anyone with eyes can see that.. You walk into a room , people notice without even trying . Like your presence affects the whole atmosphere, like the energy shifts just because you showed up, but the thing is beauty is the easiest thing to see. It takes no effort to point out someone's face. What i see in you, it takes attention. It takes knowing you and thats the part which makes you unforgettable.I notice the way you'rr talking change when you talk about something you really care about,the focus , the passion , the way your whole voice lifts its like watching a flame catch even when your trying to hide it.. Maybe you dont realise it but thst passion thats one of the most beautiful things about you. I notice your laugh not the polite one you use when your trying to be quiet, but the real one. the one that takes over your whole body , the one you try to cover because your scared its too loud,too much .But that laugh its the kind thst makes people laugh just hearing it. It fills the room in a way nothing else does and then there are the moments nobody else sees, the way you fall silent when your hurting, the way you try to hold yourself together because you dont want to bother anyone with your problems and carry your pain like its something you owe the world an apology for. Like you have to be strong all the time and somehow even in your quietist moments, you still show up for people with your full heart. That's strength.., thats rare and kinda beauty you cant put makeup on, cant fake, cant recreate .But the way you care.. But the way you care that leaves marks on the people lucky enough to know you ,your beauty might turn heads but your soul , the way you love.., the way you give.., the way you dream.., that's why people stay , thats what makes you unforgettable.. people think they know you because they see your face but if they'd paid attention.. really paid attention .They'd realise your looks are just the cover not the story.. you're gorgeous yeah but honestly thats the least extroadinary thing about you.. 💜</p>
+    <div class="heart-big">💘💘💘</div>
   </div>
 
   <!-- Mute button -->
@@ -302,6 +329,7 @@
 <!-- Music -->
 <audio id="bgMusic" loop>
   <source src="Jorge Rivera-Herrans, Anna Lea - Would You Fall In Love With Me Again (Lyrics).mp3" type="audio/mpeg">
+  Your browser does not support audio.
 </audio>
 
 <script>
@@ -342,13 +370,12 @@ const loginBox = document.getElementById('loginBox');
 const passwordInput = document.getElementById('passwordInput');
 const unlockBtn = document.getElementById('unlockBtn');
 
-const correctPassword = "I love alex"; // ← CHANGE THIS !!
+const correctPassword = "oursecretcode"; // ← CHANGE THIS !!
 
 unlockBtn.onclick = () => {
   const entered = passwordInput.value.trim();
 
   if (entered === correctPassword) {
-    // Green flash on correct
     loginBox.classList.add('correct');
     setTimeout(() => {
       loginBox.classList.remove('correct');
@@ -361,11 +388,10 @@ unlockBtn.onclick = () => {
       }, 1400);
     }, 600);
   } else {
-    // Red flash on wrong
     loginBox.classList.add('wrong');
     setTimeout(() => loginBox.classList.remove('wrong'), 800);
     alert("Wrong password... try again 🥺");
-    passwordInput.value = ''; // clear input
+    passwordInput.value = '';
     passwordInput.focus();
   }
 };
@@ -374,7 +400,7 @@ passwordInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') unlockBtn.click();
 });
 
-// Game logic (unchanged from last working version)
+// Game logic
 function startGame() {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
@@ -396,9 +422,9 @@ function startGame() {
   window.addEventListener('resize', resize);
   window.addEventListener('orientationchange', resize);
 
-  const cupidImg = new Image(); cupidImg.src = 'cupid.png';
-  const arrowImg = new Image(); arrowImg.src = 'arrow.png';
-  const heartImg = new Image(); heartImg.src = 'Red pixel heart.png';
+  const cupidImg = new Image(); cupidImg.src = 'images/cupid.png';
+  const arrowImg = new Image(); arrowImg.src = 'images/heart-arrow.png';
+  const heartImg = new Image(); heartImg.src = 'images/target-heart.png';
 
   let score = 0;
   let arrows = [];
@@ -534,17 +560,14 @@ function startGame() {
     }
 
     ctx.fillStyle = '#c2185b';
-    ctx.font = `bold ${Math.max(34, canvas.width * 0.085)}px cursive`;
-    ctx.fillText(`Hearts: ${score} / ${targetScore}`, 30, 70);
+    ctx.font = `900 ${Math.max(38, canvas.width * 0.09)}px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`;
+    ctx.shadowColor = '#f50057';
+    ctx.shadowBlur = 10;
+    ctx.fillText(`Hearts: ${score} / ${targetScore}`, 30, 80);
 
     requestAnimationFrame(loop);
   }
 
-  loop();
-}
-  </script>
-</body>
-</html>
   loop();
 }
   </script>
